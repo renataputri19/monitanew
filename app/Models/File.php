@@ -14,6 +14,7 @@ class File extends Model
         'file_path',
         'hasil',
         'reasons',
+        'original_name',
     ];
 
     public function domain()

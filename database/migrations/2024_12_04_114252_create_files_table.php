@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('file_path'); // File path
             $table->boolean('hasil')->default(false); // Approval status
             $table->text('reasons')->nullable(); // Reasons for approval/rejection
+            $table->string('original_name')->nullable();
             $table->timestamps(); // For 'Last Updated'
     
             // Foreign key constraint

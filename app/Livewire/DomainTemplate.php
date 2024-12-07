@@ -7,6 +7,7 @@ use Livewire\WithFileUploads;
 use App\Models\Domain;
 use App\Models\File;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Log;
 
 class DomainTemplate extends Component
 {
@@ -24,6 +25,8 @@ class DomainTemplate extends Component
     public $hasil;
     public $modalType; // To track whether the modal is for domain or file
     public $modalId;   // To track the specific domain or file being updated
+    public $tingkat_tpb = [];
+
 
 
 
@@ -77,17 +80,21 @@ class DomainTemplate extends Component
     {
         $this->selectedCategory = $selectedCategory;
     
-        // Fetch the first domain in the selected category as a default
-        $domain = Domain::where('aspek', $this->selectedCategory)->first();
+        // Fetch all domains in the selected category
+        $this->criteria = Domain::where('aspek', $this->selectedCategory)->get();
+        // dump($this->criteria);
     
-        if ($domain) {
-            $this->domainId = $domain->id;
-            $this->tingkat = $domain->tingkat; // Set the current tingkat value
+        // Initialize domainId and tingkat only if there are domains
+        if ($this->criteria->isNotEmpty()) {
+            $this->domainId = $this->criteria->first()->id; // Initialize with the first domain
+            $this->tingkat = $this->criteria->first()->tingkat; // Initialize tingkat
         }
     
-        $this->criteria = Domain::where('aspek', $this->selectedCategory)->get();
+        // Check if the logged-in user is an admin
         $this->isAdmin = auth()->user()->admin ?? false;
     }
+    
+    
     
 
     // Save "tingkat" independently
@@ -113,37 +120,66 @@ class DomainTemplate extends Component
     
         session()->flash('message', 'Tingkat updated successfully!');
     }
+
+    public function updateTingkatTpb($domainId, $selectedTingkat)
+    {
+        $domain = Domain::find($domainId);
+    
+        if (!$domain) {
+            session()->flash('message', 'Domain not found!');
+            return;
+        }
+    
+        // Update the tingkat_tpb value
+        $domain->tingkat_tpb = $selectedTingkat;
+        $domain->save();
+    
+        // Provide feedback to the admin
+        session()->flash('message', 'Tingkat TPB updated to ' . $selectedTingkat . ' successfully!');
+    }
+    
+    
     
 
     // Save uploaded files
     public function saveFiles()
     {
         $domains = Domain::where('aspek', $this->selectedCategory)->get();
-
+    
         if ($domains->isEmpty()) {
             session()->flash('message', 'No domains found for the selected category!');
             return;
         }
-
+    
         foreach ($domains as $domain) {
-            $folderPath = "uploads/{$domain->domain}/{$domain->aspek}/{$domain->indikator}";
-
+            // Sanitize folder paths by replacing spaces with underscores
+            $folderPath = "uploads/" . 
+                preg_replace('/\s+/', '_', $domain->domain) . "/" . 
+                preg_replace('/\s+/', '_', $domain->aspek) . "/" . 
+                preg_replace('/\s+/', '_', $domain->indikator);
+    
             foreach ($this->uploadedFiles as $file) {
-                $fileName = $file->getClientOriginalName();
-                $filePath = $file->storeAs($folderPath, $fileName, 'public');
-
+                $originalName = $file->getClientOriginalName();
+                $randomName = uniqid() . '.' . $file->getClientOriginalExtension(); // Generate a random filename
+    
+                // Store the file with a random name
+                $filePath = $file->storeAs($folderPath, $randomName, 'public');
+    
+                // Save file information in the database
                 File::create([
                     'domain_id' => $domain->id,
-                    'file_path' => $filePath,
-                    'hasil' => false,
-                    'reasons' => null,
+                    'file_path' => $filePath,       // Path to the stored file
+                    'original_name' => $originalName, // Store the original filename
+                    'hasil' => false,              // Default approval status
+                    'reasons' => null,             // No reasons initially
                 ]);
             }
         }
-
+    
         $this->uploadedFiles = [];
         session()->flash('message', 'Files uploaded successfully!');
     }
+    
 
     // Update file details
     public function updateFile($fileId)
@@ -171,18 +207,21 @@ class DomainTemplate extends Component
         // Delete the old file from storage
         Storage::disk('public')->delete($file->file_path);
     
-        // Generate the folder path based on domain structure
-        $folderPath = "uploads/{$domain->domain}/{$domain->aspek}/{$domain->indikator}";
+        // Sanitize folder path
+        $folderPath = "uploads/" . 
+            preg_replace('/\s+/', '_', $domain->domain) . "/" . 
+            preg_replace('/\s+/', '_', $domain->aspek) . "/" . 
+            preg_replace('/\s+/', '_', $domain->indikator);
+    
+        // Generate a new random file name for storage
+        $randomName = uniqid() . '.' . $this->updatedFiles[$fileId]->getClientOriginalExtension();
     
         // Store the new file in the correct folder
-        $newFilePath = $this->updatedFiles[$fileId]->storeAs(
-            $folderPath,
-            $this->updatedFiles[$fileId]->getClientOriginalName(),
-            'public'
-        );
+        $newFilePath = $this->updatedFiles[$fileId]->storeAs($folderPath, $randomName, 'public');
     
-        // Update the file path in the database
+        // Update the file path and original name in the database
         $file->file_path = $newFilePath;
+        $file->original_name = $this->updatedFiles[$fileId]->getClientOriginalName(); // Store the original name
         $file->save();
     
         // Clear the temporary file input
@@ -190,6 +229,7 @@ class DomainTemplate extends Component
     
         session()->flash('message', 'File updated successfully!');
     }
+    
     
 
     // Approve or disapprove a file

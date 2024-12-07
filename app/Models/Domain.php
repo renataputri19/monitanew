@@ -16,6 +16,7 @@ class Domain extends Model
         'files',
         'tingkat',
         'disetujui',
+        'tingkat_tpb',
     ];
 
     protected $casts = [
