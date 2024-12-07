@@ -27,6 +27,10 @@ class DomainTemplate extends Component
     public $modalId;   // To track the specific domain or file being updated
     public $tingkat_tpb = [];
 
+    public $indicators = []; // To store all indicators for the current aspek
+    public $currentIndicator = null; // To store the currently selected indicator
+    public $currentIndicatorIndex = 0; // To track the index of the selected indicator
+
 
 
 
@@ -82,7 +86,6 @@ class DomainTemplate extends Component
     
         // Fetch all domains in the selected category
         $this->criteria = Domain::where('aspek', $this->selectedCategory)->get();
-        // dump($this->criteria);
     
         // Initialize domainId and tingkat only if there are domains
         if ($this->criteria->isNotEmpty()) {
@@ -90,9 +93,28 @@ class DomainTemplate extends Component
             $this->tingkat = $this->criteria->first()->tingkat; // Initialize tingkat
         }
     
+        // Fetch all indicators for the selected aspek and explicitly convert to array
+        $this->indicators = Domain::where('aspek', $this->selectedCategory)->get()->toArray();
+    
+        // Set the first indicator as the default
+        if (!empty($this->indicators)) {
+            $this->currentIndicator = $this->indicators[0];
+        }
+    
         // Check if the logged-in user is an admin
         $this->isAdmin = auth()->user()->admin ?? false;
     }
+    
+    
+
+    public function selectIndicator($index)
+    {
+        if (isset($this->indicators[$index])) {
+            $this->currentIndicatorIndex = $index;
+            $this->currentIndicator = $this->indicators[$index];
+        }
+    }
+    
     
     
     

@@ -1,6 +1,127 @@
 <div class="p-6 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-200 rounded-md shadow">
     <h1 class="text-2xl font-bold mb-4">Manage Files for {{ $selectedCategory }}</h1>
 
+
+    <!-- Indicator Navigation -->
+    <div class="mb-4 flex items-center gap-4">
+        @foreach ($indicators as $index => $indicator)
+            <button wire:click="selectIndicator({{ $index }})"
+                class="px-4 py-2 rounded-md text-sm transition
+                {{ $currentIndicator['id'] === $indicator['id'] ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-800 dark:bg-gray-700 dark:text-gray-100 hover:bg-gray-300 dark:hover:bg-gray-600' }}">
+                {{ $indicator['indikator'] }}
+            </button>
+        @endforeach
+    </div>
+
+    <!-- Tabs for Indicator Navigation -->
+    <div class="mb-4 flex border-b border-gray-300 dark:border-gray-700">
+        @foreach ($indicators as $index => $indicator)
+            <button wire:click="selectIndicator({{ $index }})"
+                class="px-4 py-2 transition border-b-4
+                {{ $currentIndicator['id'] === $indicator['id'] ? 'border-blue-500 text-blue-500 font-bold' : 'border-transparent text-gray-800 dark:text-gray-100 hover:text-blue-500 hover:border-blue-500' }}">
+                {{ $indicator['indikator'] }}
+            </button>
+        @endforeach
+    </div>
+
+    <!-- Slider for Indicator Navigation -->
+    <div class="mb-4 flex overflow-x-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100 dark:scrollbar-thumb-gray-700 dark:scrollbar-track-gray-800 gap-4">
+        @foreach ($indicators as $index => $indicator)
+            <button wire:click="selectIndicator({{ $index }})"
+                class="flex-shrink-0 px-4 py-2 rounded-md text-sm transition
+                {{ $currentIndicator['id'] === $indicator['id'] ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-800 dark:bg-gray-700 dark:text-gray-100 hover:bg-gray-300 dark:hover:bg-gray-600' }}">
+                {{ $indicator['indikator'] }}
+            </button>
+        @endforeach
+    </div>
+
+<!-- Dropdown for Indicator Navigation -->
+<div class="mb-4">
+    <label for="indicatorDropdown" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+        Select Indicator
+    </label>
+    <select id="indicatorDropdown" wire:model="currentIndicatorIndex"
+        class="block w-full px-3 py-2 mt-2 border border-gray-300 rounded-md bg-white dark:bg-gray-800 dark:border-gray-700 dark:text-gray-300">
+        @foreach ($indicators as $index => $indicator)
+            <option value="{{ $index }}">
+                {{ $indicator['indikator'] }}
+            </option>
+        @endforeach
+    </select>
+</div>
+
+<!-- Pagination for Indicator Navigation -->
+<div class="mb-4 flex items-center justify-center gap-2">
+    @foreach ($indicators as $index => $indicator)
+        <button wire:click="selectIndicator({{ $index }})"
+            class="px-3 py-2 rounded-md text-sm transition
+            {{ $currentIndicator['id'] === $indicator['id'] ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-800 dark:bg-gray-700 dark:text-gray-100 hover:bg-gray-300 dark:hover:bg-gray-600' }}">
+            {{ $index + 1 }}
+        </button>
+    @endforeach
+</div>
+
+<!-- Vertical Navigation for Indicator Navigation -->
+<div class="mb-4 flex flex-col items-start gap-2">
+    @foreach ($indicators as $index => $indicator)
+        <button wire:click="selectIndicator({{ $index }})"
+            class="px-4 py-2 rounded-md text-sm transition w-full text-left
+            {{ $currentIndicator['id'] === $indicator['id'] ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-800 dark:bg-gray-700 dark:text-gray-100 hover:bg-gray-300 dark:hover:bg-gray-600' }}">
+            {{ $indicator['indikator'] }}
+        </button>
+    @endforeach
+</div>
+
+<!-- Accordion Navigation -->
+<div class="mb-4 space-y-2">
+    @foreach ($indicators as $index => $indicator)
+        <div>
+            <button wire:click="selectIndicator({{ $index }})"
+                class="w-full text-left px-4 py-2 rounded-md transition
+                {{ $currentIndicator['id'] === $indicator['id'] ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-800 dark:bg-gray-700 dark:text-gray-100 hover:bg-gray-300 dark:hover:bg-gray-600' }}">
+                {{ $indicator['indikator'] }}
+            </button>
+            @if ($currentIndicator['id'] === $indicator['id'])
+                <div class="mt-2 p-4 border-l-2 border-blue-500 bg-gray-100 dark:bg-gray-800">
+                    <!-- Add content related to the selected indicator here -->
+                    <p class="text-sm text-gray-700 dark:text-gray-300">
+                        Details about {{ $indicator['indikator'] }}.
+                    </p>
+                </div>
+            @endif
+        </div>
+    @endforeach
+</div>
+
+
+<!-- Card Navigation -->
+<div class="mb-4 grid grid-cols-2 md:grid-cols-4 gap-4">
+    @foreach ($indicators as $index => $indicator)
+        <button wire:click="selectIndicator({{ $index }})"
+            class="p-4 rounded-md shadow-md transition text-center
+            {{ $currentIndicator['id'] === $indicator['id'] ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-800 dark:bg-gray-700 dark:text-gray-100 hover:bg-gray-300 dark:hover:bg-gray-600' }}">
+            {{ $indicator['indikator'] }}
+        </button>
+    @endforeach
+</div>
+
+
+
+
+
+
+
+    
+
+    <!-- Current Indicator Title -->
+    <h2 class="text-xl font-bold mb-6">
+        {{ $currentIndicator['indikator'] ?? 'Select an Indicator' }}
+    </h2>
+
+
+
+
+
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
         <!-- Update Tingkat Section -->
         <div class="p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg transition hover:shadow-2xl">
@@ -56,123 +177,122 @@
 
     <!-- Domain Details -->
     <h2 class="text-2xl font-bold mb-6 text-gray-900 dark:text-gray-100">Domain Details</h2>
-    <div class="space-y-6">
-        @foreach ($criteria as $domain)
-            <div class="p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg transition hover:shadow-2xl mb-6">
-                <!-- Header with Domain Name and Status -->
-                <div class="flex items-center justify-between border-b border-gray-300 dark:border-gray-700 pb-4 mb-4">
-                    <div>
-                        <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-100">{{ $domain->domain }}</h3>
-                        <p class="text-sm text-gray-500 dark:text-gray-400">
-                            {{ $domain->disetujui ? 'Approved' : 'Pending' }}
-                            <span class="{{ $domain->disetujui ? 'text-green-500' : 'text-yellow-500' }} font-medium">
-                                • {{ $domain->disetujui ? '✔ Approved' : '⚠ Pending' }}
-                            </span>
-                        </p>
-                    </div>
-                </div>
 
-                <!-- Domain Details -->
-                <div class="mb-2">
-                    <div>
-                        <span class="fs-6 text-gray-600 dark:text-gray-400 font-medium">Tingkat (User):</span>
-                        <span
-                            class="fs-6 text-gray-800 dark:text-gray-100 font-medium">{{ $domain->tingkat ?? 'N/A' }}</span>
-                    </div>
-                    <div>
-                        <span class="fs-6 text-gray-600 dark:text-gray-400 font-medium">Tingkat TPB (Admin):</span>
-                        <span
-                            class="fs-6 text-gray-800 dark:text-gray-100 font-medium">{{ $domain->tingkat_tpb ?? 'N/A' }}</span>
-                    </div>
-                    <div>
-                        <span class="fs-6 text-gray-600 dark:text-gray-400 font-medium">Reason:</span>
-                        <span class="fs-6 text-gray-800 dark:text-gray-100 whitespace-normal font-medium">
-                            {{ $domain->reasons ?? 'N/A' }}
+    @if ($currentIndicator)
+        <div class="p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg transition hover:shadow-2xl mb-6">
+            <!-- Header with Domain Name and Status -->
+            <div class="flex items-center justify-between border-b border-gray-300 dark:border-gray-700 pb-4 mb-4">
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-100">{{ $currentIndicator['domain'] }}</h3>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">
+                        {{ $currentIndicator['disetujui'] ? 'Approved' : 'Pending' }}
+                        <span class="{{ $currentIndicator['disetujui'] ? 'text-green-500' : 'text-yellow-500' }} font-medium">
+                            • {{ $currentIndicator['disetujui'] ? '✔ Approved' : '⚠ Pending' }}
                         </span>
-                    </div>
+                    </p>
                 </div>
-
-
-                @if ($isAdmin)
-                    <!-- Admin Actions -->
-                    <div class="mt-2 flex flex-wrap items-center gap-4">
-                        <!-- Update Tingkat TPB -->
-                        <div class="flex items-center gap-2">
-                            <label for="tingkat-tpb-{{ $domain->id }}"
-                                class="block text-sm font-medium text-gray-800 dark:text-gray-200 mb-0">
-                                Tingkat TPB:
-                            </label>
-                            <div class="flex items-center gap-2">
-                                @foreach (range(1, 5) as $tingkat)
-                                    <button wire:click="updateTingkatTpb({{ $domain->id }}, {{ $tingkat }})"
-                                        class="px-3 py-1 rounded-full text-sm transition
-                                    {{ $domain->tingkat_tpb == $tingkat ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-800 dark:bg-gray-700 dark:text-gray-100 hover:bg-gray-300 dark:hover:bg-gray-600' }}">
-                                        {{ $tingkat }}
-                                    </button>
-                                @endforeach
-                            </div>
-                        </div>
-
-                        <!-- Provide Reason -->
-                        <button
-                            onclick="openReasonModal('domain', {{ $domain->id }}, '{{ $domain->reasons }}', {{ $domain->disetujui }})"
-                            class="px-4 py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-600 focus:ring-2 focus:ring-yellow-300 ml-auto">
-                            Provide Reason
-                        </button>
-                    </div>
-                @endif
             </div>
-        @endforeach
-    </div>
+
+            <!-- Domain Details -->
+            <div class="mb-2">
+                <div>
+                    <span class="fs-6 text-gray-600 dark:text-gray-400 font-medium">Tingkat (User):</span>
+                    <span class="fs-6 text-gray-800 dark:text-gray-100 font-medium">
+                        {{ $currentIndicator['tingkat'] ?? 'N/A' }}
+                    </span>
+                </div>
+                <div>
+                    <span class="fs-6 text-gray-600 dark:text-gray-400 font-medium">Tingkat TPB (Admin):</span>
+                    <span class="fs-6 text-gray-800 dark:text-gray-100 font-medium">
+                        {{ $currentIndicator['tingkat_tpb'] ?? 'N/A' }}
+                    </span>
+                </div>
+                <div>
+                    <span class="fs-6 text-gray-600 dark:text-gray-400 font-medium">Reason:</span>
+                    <span class="fs-6 text-gray-800 dark:text-gray-100 whitespace-normal font-medium">
+                        {{ $currentIndicator['reasons'] ?? 'N/A' }}
+                    </span>
+                </div>
+            </div>
+
+            @if ($isAdmin)
+                <!-- Admin Actions -->
+                <div class="mt-2 flex flex-wrap items-center gap-4">
+                    <!-- Update Tingkat TPB -->
+                    <div class="flex items-center gap-2">
+                        <label for="tingkat-tpb-{{ $currentIndicator['id'] }}"
+                            class="block text-sm font-medium text-gray-800 dark:text-gray-200 mb-0">
+                            Tingkat TPB:
+                        </label>
+                        <div class="flex items-center gap-2">
+                            @foreach (range(1, 5) as $tingkat)
+                                <button wire:click="updateTingkatTpb({{ $currentIndicator['id'] }}, {{ $tingkat }})"
+                                    class="px-3 py-1 rounded-full text-sm transition
+                                    {{ $currentIndicator['tingkat_tpb'] == $tingkat ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-800 dark:bg-gray-700 dark:text-gray-100 hover:bg-gray-300 dark:hover:bg-gray-600' }}">
+                                    {{ $tingkat }}
+                                </button>
+                            @endforeach
+                        </div>
+                    </div>
+
+                    <!-- Provide Reason -->
+                    <button
+                        onclick="openReasonModal('domain', {{ $currentIndicator['id'] }}, '{{ $currentIndicator['reasons'] }}', {{ $currentIndicator['disetujui'] }})"
+                        class="px-4 py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-600 focus:ring-2 focus:ring-yellow-300 ml-auto">
+                        Provide Reason
+                    </button>
+                </div>
+            @endif
+        </div>
+    @else
+        <p class="text-gray-500 dark:text-gray-400">No indicator selected.</p>
+    @endif
 
 
 
 
 
-    <!-- Existing Files Table -->
+
+
     <!-- Enhanced Files Table -->
     <h2 class="text-2xl font-bold mb-6 text-gray-900 dark:text-gray-100">Existing Files</h2>
     <div class="overflow-x-auto">
-        <table class="table-auto w-full border-collapse border border-gray-300 dark:border-gray-700">
-            <thead class="bg-gray-200 dark:bg-gray-800">
-                <tr>
-                    <th class="border border-gray-300 dark:border-gray-700 px-4 py-2 text-gray-900 dark:text-gray-100">
-                        File</th>
-                    <th class="border border-gray-300 dark:border-gray-700 px-4 py-2 text-gray-900 dark:text-gray-100">
-                        Status</th>
-                    <th class="border border-gray-300 dark:border-gray-700 px-4 py-2 text-gray-900 dark:text-gray-100">
-                        Reason</th>
-                    <th class="border border-gray-300 dark:border-gray-700 px-4 py-2 text-gray-900 dark:text-gray-100">
-                        Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($criteria as $domain)
+        @if ($currentIndicator)
+            <table class="table-auto w-full border-collapse border border-gray-300 dark:border-gray-700">
+                <thead class="bg-gray-200 dark:bg-gray-800">
+                    <tr>
+                        <th class="border border-gray-300 dark:border-gray-700 px-4 py-2 text-gray-900 dark:text-gray-100">
+                            File</th>
+                        <th class="border border-gray-300 dark:border-gray-700 px-4 py-2 text-gray-900 dark:text-gray-100">
+                            Status</th>
+                        <th class="border border-gray-300 dark:border-gray-700 px-4 py-2 text-gray-900 dark:text-gray-100">
+                            Reason</th>
+                        <th class="border border-gray-300 dark:border-gray-700 px-4 py-2 text-gray-900 dark:text-gray-100">
+                            Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
                     @php
-                        $files = \App\Models\File::where('domain_id', $domain->id)->get();
+                        $files = \App\Models\File::where('domain_id', $currentIndicator['id'])->get();
                     @endphp
                     @foreach ($files as $file)
                         <tr class="bg-white dark:bg-gray-900 hover:bg-gray-100 dark:hover:bg-gray-800 transition">
                             <!-- File Column -->
-                            <td
-                                class="border border-gray-300 dark:border-gray-700 px-4 py-2 text-gray-800 dark:text-gray-300">
+                            <td class="border border-gray-300 dark:border-gray-700 px-4 py-2 text-gray-800 dark:text-gray-300">
                                 <a href="{{ asset('storage/' . $file->file_path) }}" class="text-blue-500">
                                     {{ $file->original_name }}
                                 </a>
-
                             </td>
 
                             <!-- Status Column -->
-                            <td
-                                class="border border-gray-300 dark:border-gray-700 px-4 py-2 text-gray-800 dark:text-gray-300">
+                            <td class="border border-gray-300 dark:border-gray-700 px-4 py-2 text-gray-800 dark:text-gray-300">
                                 <span class="{{ $file->hasil ? 'text-green-500' : 'text-yellow-500' }}">
                                     {{ $file->hasil ? 'Approved' : 'Pending' }}
                                 </span>
                             </td>
 
                             <!-- Reason Column -->
-                            <td
-                                class="border border-gray-300 dark:border-gray-700 px-4 py-2 text-gray-800 dark:text-gray-300">
+                            <td class="border border-gray-300 dark:border-gray-700 px-4 py-2 text-gray-800 dark:text-gray-300">
                                 {{ $file->reasons ?? 'N/A' }}
                             </td>
 
@@ -211,10 +331,13 @@
                             </td>
                         </tr>
                     @endforeach
-                @endforeach
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+        @else
+            <p class="text-gray-500 dark:text-gray-400">No indicator selected or no files available.</p>
+        @endif
     </div>
+
 
 
 
@@ -250,52 +373,65 @@
     </div>
 
     <script>
-        let modalType = null;
-        let modalId = null;
-
+        let modalType = null; // Either 'domain' or 'file'
+        let modalId = null; // The ID of the domain or file
+        let currentIndicatorTitle = "{{ $currentIndicator['indikator'] ?? 'N/A' }}";
+    
         function openReasonModal(type, id, reason = '', status = null) {
             modalType = type;
             modalId = id;
-            document.getElementById('reasonTextarea').value = reason || ''; // Set the reason value
-            document.getElementById('modalTitle').textContent =
-                `Provide Reason for ${type === 'domain' ? 'Domain' : 'File'}`;
+    
+            // Update modal title based on the type
+            const titlePrefix = type === 'domain' ? 'Domain' : 'File';
+            document.getElementById('modalTitle').textContent = `Provide Reason for ${titlePrefix}: ${currentIndicatorTitle}`;
+    
+            // Populate reason textarea
+            document.getElementById('reasonTextarea').value = reason || '';
+    
+            // Show modal
             document.getElementById('reasonModal').classList.remove('hidden');
         }
-
+    
         function closeReasonModal() {
+            // Clear modal data
             modalType = null;
             modalId = null;
-            document.getElementById('reasonTextarea').value = ''; // Clear the textarea explicitly
-            document.getElementById('reasonModal').classList.add('hidden');
+            document.getElementById('reasonTextarea').value = ''; // Clear reason
+            document.getElementById('reasonModal').classList.add('hidden'); // Hide modal
         }
-
+    
         function saveReasonAndStatus(status) {
             const reason = document.getElementById('reasonTextarea').value;
+    
+            // Call Livewire method based on modal type
             if (modalType === 'domain') {
                 @this.call('saveDomainReasonAndStatus', modalId, reason, status);
             } else if (modalType === 'file') {
                 @this.call('saveFileReasonAndStatus', modalId, reason, status);
             }
-            closeReasonModal(); // Ensure the modal is closed and cleared
+    
+            // Close modal after action
+            closeReasonModal();
         }
-
-        let deleteFileId = null;
-
+    
+        let deleteFileId = null; // ID of the file to delete
+    
         function confirmDelete(fileId) {
             deleteFileId = fileId;
-            document.getElementById('deleteModal').classList.remove('hidden');
+            document.getElementById('deleteModal').classList.remove('hidden'); // Show delete confirmation modal
         }
-
+    
         function closeDeleteModal() {
             deleteFileId = null;
-            document.getElementById('deleteModal').classList.add('hidden');
+            document.getElementById('deleteModal').classList.add('hidden'); // Hide delete confirmation modal
         }
-
+    
         function confirmDeleteAction() {
             if (deleteFileId) {
                 @this.call('deleteFile', deleteFileId);
             }
-            closeDeleteModal();
+            closeDeleteModal(); // Close modal after delete
         }
     </script>
+    
 </div>
