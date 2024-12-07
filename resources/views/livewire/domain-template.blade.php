@@ -1,32 +1,58 @@
 <div class="p-6 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-200 rounded-md shadow">
     <h1 class="text-2xl font-bold mb-4">Manage Files for {{ $selectedCategory }}</h1>
 
-    <!-- Form to Update Tingkat -->
-    <form wire:submit.prevent="saveTingkat" class="mb-8">
-        <label for="tingkat" class="block text-sm font-medium mb-2">Tingkat:</label>
-        <select id="tingkat" wire:model="tingkat"
-            class="block w-full p-2 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 rounded-md">
-            <option value="" disabled>Select Tingkat</option>
-            <option value="1">Tingkat 1</option>
-            <option value="2">Tingkat 2</option>
-            <option value="3">Tingkat 3</option>
-            <option value="4">Tingkat 4</option>
-            <option value="5">Tingkat 5</option>
-        </select>
-        <button type="submit" class="mt-4 px-4 py-2 bg-blue-500 text-white rounded-md">
-            Update Tingkat
-        </button>
-    </form>
-
-    <!-- Form to Upload Files -->
-    <form wire:submit.prevent="saveFiles" class="mb-8">
-        <label for="files" class="block text-sm font-medium mb-2">Upload Files:</label>
-        <input type="file" id="files" wire:model="uploadedFiles" multiple
-            class="block w-full p-2 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 rounded-md">
-        <button type="submit" class="mt-4 px-4 py-2 bg-blue-500 text-white rounded-md">
-            Upload Files
-        </button>
-    </form>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <!-- Update Tingkat Section -->
+        <div class="p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg transition hover:shadow-2xl">
+            <h2 class="text-lg font-bold mb-4 text-gray-900 dark:text-gray-100">Update Tingkat</h2>
+            <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">
+                Click on the desired level to update the "Tingkat" automatically.
+            </p>
+            <div class="flex items-center gap-2 flex-wrap mb-4">
+                @foreach (range(1, 5) as $level)
+                    <button
+                        wire:click="saveTingkat({{ $level }})"
+                        class="px-4 py-2 rounded-md text-sm transition w-12 text-center
+                        {{ $tingkat == $level ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-800 dark:bg-gray-700 dark:text-gray-100 hover:bg-gray-300 dark:hover:bg-gray-600' }}">
+                        {{ $level }}
+                    </button>
+                @endforeach
+            </div>
+            @if (session()->has('message'))
+                <p class="mt-6 text-sm text-green-500">{{ session('message') }}</p>
+            @endif
+        </div>
+        
+    
+        <!-- Upload Files Section -->
+        <div class="p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg transition hover:shadow-2xl">
+            <h2 class="text-lg font-bold mb-4 text-gray-900 dark:text-gray-100">Upload Files</h2>
+            <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">
+                Select files to upload. You can upload multiple files at once.
+            </p>
+            <div class="grid grid-cols-3 gap-4">
+                <!-- Select Files Column -->
+                <div class="col-span-2">
+                    <label for="files" class="block text-sm font-medium mb-2 text-gray-800 dark:text-gray-200">
+                        Select Files:
+                    </label>
+                    <input type="file" id="files" wire:model="uploadedFiles" multiple
+                        class="block w-full p-2 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                </div>
+        
+                <!-- Upload Button Column -->
+                <div class="flex items-end">
+                    <button type="button" wire:click="saveFiles"
+                        class="w-full px-6 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 focus:ring-2 focus:ring-green-300">
+                        Upload Files
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+    
+    
 
     <!-- Domain Details -->
     <h2 class="text-2xl font-bold mb-6 text-gray-900 dark:text-gray-100">Domain Details</h2>

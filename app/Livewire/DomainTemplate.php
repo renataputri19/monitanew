@@ -98,7 +98,7 @@ class DomainTemplate extends Component
     
 
     // Save "tingkat" independently
-    public function saveTingkat()
+    public function saveTingkat($level)
     {
         // Ensure domainId is set
         if (!$this->domainId) {
@@ -115,11 +115,15 @@ class DomainTemplate extends Component
         }
     
         // Update tingkat
-        $domain->tingkat = $this->tingkat;
+        $domain->tingkat = $level;
         $domain->save();
+    
+        // Update the tingkat state to reflect the change in the UI
+        $this->tingkat = $level;
     
         session()->flash('message', 'Tingkat updated successfully!');
     }
+    
 
     public function updateTingkatTpb($domainId, $selectedTingkat)
     {
