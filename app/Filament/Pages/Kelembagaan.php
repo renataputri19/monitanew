@@ -12,5 +12,11 @@ class Kelembagaan extends Page
     protected static ?string $navigationLabel = 'Kelembagaan';
     protected static ?int $navigationSort = 4;
 
+    // Correctly override the getTitle method
+    public function getTitle(): string
+    {
+        return 'Domain - Kelembagaan';
+    }
+
     protected static string $view = 'filament.pages.kelembagaan';
 }

@@ -11,5 +11,11 @@ class ProsesBisnisStatistik extends Page
     protected static ?string $navigationLabel = 'Proses Bisnis Statistik';
     protected static ?int $navigationSort = 3;
 
+    // Correctly override the getTitle method
+    public function getTitle(): string
+    {
+        return 'Domain - Proses Bisnis Statistik';
+    }
+
     protected static string $view = 'filament.pages.proses-bisnis-statistik';
 }

@@ -4,7 +4,7 @@
         {{-- <h1 class="text-2xl font-bold">1. Manajemen Perubahan - Pemenuhan</h1> --}}
 
         <!-- Dropdown -->
-        <label for="section-select" class="block text-sm font-medium text-gray-900 dark:text-white">Select Section</label>
+        <label for="section-select" class="block text-sm font-medium text-gray-900 dark:text-white">Pilih Aspek</label>
         <select id="section-select"
             class="block w-full mt-2 p-2 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-white rounded-md shadow-sm"
             onchange="showSection(this.value)">
