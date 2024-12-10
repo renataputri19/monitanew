@@ -208,51 +208,60 @@ class DomainTemplate extends Component
     
 
     // Update file details
+    // Automatically trigger file update when a new file is selected
+    public function updated($propertyName)
+    {
+        if (str_starts_with($propertyName, 'updatedFiles.')) {
+            $fileId = explode('.', $propertyName)[1];
+            $this->updateFile($fileId);
+        }
+    }
+
     public function updateFile($fileId)
     {
         $file = File::find($fileId);
-    
+
         if (!$file) {
             session()->flash('message', 'File not found!');
             return;
         }
-    
+
         if (!isset($this->updatedFiles[$fileId])) {
             session()->flash('message', 'No file selected for update!');
             return;
         }
-    
+
         // Fetch the associated domain for folder structure
         $domain = Domain::find($file->domain_id);
-    
+
         if (!$domain) {
             session()->flash('message', 'Domain not found!');
             return;
         }
-    
+
         // Delete the old file from storage
         Storage::disk('public')->delete($file->file_path);
-    
+
         // Sanitize folder path
-        $folderPath = "uploads/" . 
-            preg_replace('/\s+/', '_', $domain->domain) . "/" . 
-            preg_replace('/\s+/', '_', $domain->aspek) . "/" . 
+        $folderPath = "uploads/" .
+            preg_replace('/\s+/', '_', $domain->domain) . "/" .
+            preg_replace('/\s+/', '_', $domain->aspek) . "/" .
             preg_replace('/\s+/', '_', $domain->indikator);
-    
+
         // Generate a new random file name for storage
         $randomName = uniqid() . '.' . $this->updatedFiles[$fileId]->getClientOriginalExtension();
-    
+
         // Store the new file in the correct folder
         $newFilePath = $this->updatedFiles[$fileId]->storeAs($folderPath, $randomName, 'public');
-    
+
         // Update the file path and original name in the database
         $file->file_path = $newFilePath;
         $file->original_name = $this->updatedFiles[$fileId]->getClientOriginalName(); // Store the original name
         $file->save();
-    
+
         // Clear the temporary file input
         unset($this->updatedFiles[$fileId]);
-    
+
         session()->flash('message', 'File updated successfully!');
     }
     

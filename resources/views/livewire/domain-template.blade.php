@@ -5,13 +5,13 @@
     {{-- part 1 --}}
     
     @if (count($indicators) > 1)
-        <div class="p-4 border rounded-lg bg-gray-100 dark:bg-gray-800 mb-6">
-            <h1 class="text-2xl font-bold mt-2 mb-6 text-gray-900 dark:text-gray-100">Pilih Indikator dari Aspek {{ $selectedCategory }}</h1>
-            <div class="mt-6 mb-6 flex overflow-x-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100 dark:scrollbar-thumb-gray-700 dark:scrollbar-track-gray-800 gap-4 border border-gray-300 dark:border-gray-600 rounded-md p-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-200">
+        <div class="p-6 border rounded-lg bg-gray-100 dark:bg-gray-800 mb-6">
+            <h1 class="text-2xl font-bold mb-6 text-gray-900 dark:text-gray-100 text-center">Pilih Indikator dari Aspek {{ $selectedCategory }}</h1>
+            <div class="mt-6 mb-6 flex overflow-x-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100 dark:scrollbar-thumb-gray-700 dark:scrollbar-track-gray-800 gap-4 border border-gray-300 dark:border-gray-600 rounded-md p-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200">
                 @foreach ($indicators as $index => $indicator)
                     <button wire:click="selectIndicator({{ $index }})"
                         class="flex-shrink-0 px-4 py-2 rounded-md text-sm transition text-gray-800 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-600
-                        {{ $currentIndicator['id'] === $indicator['id'] ? 'bg-gray-200  dark:bg-gray-700' : 'bg-blue-500' }}">
+                        {{ $currentIndicator['id'] === $indicator['id'] ? 'bg-gray-200  dark:bg-gray-800' : 'bg-blue-500' }}">
                         {{ $indicator['indikator'] }}
                     </button>
                 @endforeach
@@ -26,8 +26,8 @@
     {{-- part 2 --}}
 
     <!-- Tingkat Section -->
-    <div class="p-4 border rounded-lg bg-gray-100 dark:bg-gray-800 mb-6 mt-6">
-        <h1 class="text-2xl font-bold mt-2 mb-6 text-gray-900 dark:text-gray-100">
+    <div class="p-6 border rounded-lg bg-gray-100 dark:bg-gray-800 mb-6 mt-6">
+        <h1 class="text-2xl font-bold mb-6 text-gray-900 dark:text-gray-100">
             Indikator: {{ $currentIndicator['indikator'] ?? 'Select an Indicator' }}
         </h1>
 
@@ -68,7 +68,7 @@
                             Select Files:
                         </label>
                         <input type="file" id="files" wire:model="uploadedFiles" multiple
-                            class="block w-full p-2 border border-gray-300 dark:border-gray-800 bg-white dark:bg-gray-700 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                            class="block w-full p-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none">
                     </div>
             
                     <!-- Upload Button Column -->
@@ -89,13 +89,13 @@
 
     <!-- Domain Details -->
     {{-- part 3 --}}
-    <div class="p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg mt-6 mb-6">
-        <h1 class="text-2xl font-bold mt-2 mb-6 text-gray-900 dark:text-gray-100">Penilaian</h1>
+    <div class="p-6 border rounded-lg bg-gray-100 dark:bg-gray-800 mb-6 mt-6">
+        <h1 class="text-2xl font-bold mb-6 text-gray-900 dark:text-gray-100">Penilaian</h1>
 
         @if ($currentIndicator)
-            <div class="p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg transition hover:shadow-2xl mt-6 mb-6">
+            <div class="p-6 bg-white dark:bg-gray-700 rounded-xl shadow-lg transition hover:shadow-2xl mt-6 mb-6">
                 <!-- Header with Domain Name and Status -->
-                <div class="flex items-center justify-between border-b border-gray-300 dark:border-gray-700 pb-4 mb-4">
+                <div class="flex items-center justify-between border-b border-gray-300 dark:border-gray-600 pb-4 mb-4">
                     <div>
                         <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-100">{{ $currentIndicator['indikator'] }}</h3>
                         <p class="text-sm text-gray-500 dark:text-gray-400">
@@ -105,7 +105,7 @@
                             </span>
                         </p>
                     </div>
-                    <button class="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-sm rounded-full">
+                    <button class="px-3 py-1 bg-gray-200 dark:bg-gray-600 text-sm rounded-full">
                         ID: {{ $currentIndicator['id'] }}
                     </button>
                 </div>
@@ -144,8 +144,8 @@
                             <div class="flex items-center gap-2">
                                 @foreach (range(1, 5) as $tingkat)
                                     <button wire:click="updateTingkatTpb({{ $currentIndicator['id'] }}, {{ $tingkat }})"
-                                        class="px-3 py-1 rounded-full text-sm transition
-                                        {{ $currentIndicator['tingkat_tpb'] == $tingkat ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-800 dark:bg-gray-700 dark:text-gray-100 hover:bg-gray-300 dark:hover:bg-gray-600' }}">
+                                        class="px-3 py-1 rounded-md text-sm transition w-12 text-center text-gray-800 dark:text-gray-200
+                                        {{ $currentIndicator['tingkat_tpb'] == $tingkat ? 'bg-gray-400 dark:bg-gray-900 hover:bg-gray-400 dark:hover:bg-gray-700' : 'bg-gray-100 dark:bg-gray-600 hover:bg-gray-200 dark:hover:bg-gray-600' }}">
                                         {{ $tingkat }}
                                     </button>
                                 @endforeach
@@ -153,11 +153,14 @@
                         </div>
 
                         <!-- Provide Reason -->
-                        <button
-                            onclick="openReasonModal('domain', {{ $currentIndicator['id'] }}, '{{ $currentIndicator['reasons'] }}', {{ $currentIndicator['disetujui'] }})"
-                            class="px-4 py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-600 focus:ring-2 focus:ring-yellow-300 ml-auto">
-                            Provide Reason
-                        </button>
+                        <div class="flex items-end">
+                            <button
+                                onclick="openReasonModal('domain', {{ $currentIndicator['id'] }}, '{{ $currentIndicator['reasons'] }}', {{ $currentIndicator['disetujui'] }})"
+                                class="px-3 py-1 bg-green-500 text-gray-800 dark:text-gray-200 rounded-md hover:bg-green-600 focus:ring-2 focus:ring-green-300 bg-gray-300  dark:bg-gray-900  hover:bg-gray-300 dark:hover:bg-gray-600">
+                                Provide Reason
+                            </button>
+                        </div>
+                        
                     </div>
                 @endif
             </div>
@@ -173,8 +176,8 @@
 
     <!-- Enhanced Files Table -->
     {{-- part 4 --}}
-    <div class="p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg mt-6 mb-6">
-        <h1 class="text-2xl font-bold mt-2 mb-6 text-gray-900 dark:text-gray-100">Files</h1>
+    <div class="p-6 border rounded-lg bg-gray-100 dark:bg-gray-800 mb-6 mt-6">
+        <h1 class="text-2xl font-bold mb-6 text-gray-900 dark:text-gray-100">Files</h1>
         <div class="overflow-x-auto">
             @if ($currentIndicator)
                 <table class="table-auto w-full border-collapse border border-gray-300 dark:border-gray-700 mt-6 mb-6">
@@ -220,21 +223,21 @@
                                     <div class="space-y-2">
                                         <!-- Update File Button -->
                                         <label for="update-file-{{ $file->id }}"
-                                            class="block px-3 py-2 bg-yellow-500 text-white rounded-md cursor-pointer text-center hover:bg-yellow-600">
+                                            class="block px-3 py-2 bg-yellow-500 text-gray-800 dark:text-gray-300 rounded-md cursor-pointer text-center bg-gray-300  dark:bg-gray-700  hover:bg-gray-300 dark:hover:bg-gray-800">
                                             Update
                                         </label>
                                         <input type="file" id="update-file-{{ $file->id }}"
                                             wire:model="updatedFiles.{{ $file->id }}" class="hidden">
                                         @if (isset($updatedFiles[$file->id]))
                                             <button wire:click="updateFile({{ $file->id }})"
-                                                class="block w-full px-3 py-2 bg-green-500 text-white rounded-md hover:bg-green-600">
+                                                class="block w-full px-3 py-2 bg-green-500 text-gray-800 dark:text-gray-300 rounded-md bg-gray-300  dark:bg-gray-700  hover:bg-gray-300 dark:hover:bg-gray-800">
                                                 Save
                                             </button>
                                         @endif
 
                                         <!-- Delete File Button -->
                                         <button onclick="confirmDelete({{ $file->id }})"
-                                            class="block w-full px-3 py-2 bg-red-500 text-white rounded-md hover:bg-red-600">
+                                            class="block w-full px-3 py-2 bg-red-500 text-gray-800 dark:text-gray-300 rounded-md bg-gray-300  dark:bg-gray-700  hover:bg-gray-300 dark:hover:bg-gray-800">
                                             Delete
                                         </button>
 
@@ -242,7 +245,7 @@
                                         @if ($isAdmin)
                                             <button
                                                 onclick="openReasonModal('file', {{ $file->id }}, '{{ $file->reasons }}', {{ $file->hasil }})"
-                                                class="block w-full px-3 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">
+                                                class="block w-full px-3 py-2 bg-blue-500 text-gray-800 dark:text-gray-300 rounded-md bg-gray-300  dark:bg-gray-700  hover:bg-gray-300 dark:hover:bg-gray-800">
                                                 Provide Reason
                                             </button>
                                         @endif
@@ -257,6 +260,116 @@
             @endif
         </div>
     </div>
+
+
+    <div class="p-6 border rounded-lg bg-gray-100 dark:bg-gray-800 mb-6 mt-6">
+        <h1 class="text-2xl font-bold mb-6 text-gray-900 dark:text-gray-100">Files</h1>
+        <div class="overflow-x-auto">
+            @if ($currentIndicator)
+                <table class="table-auto w-full border-collapse border border-gray-300 dark:border-gray-700 mt-6 mb-6">
+                    <thead class="bg-gray-200 dark:bg-gray-800">
+                        <tr>
+                            <th class="border border-gray-300 dark:border-gray-700 px-4 py-2 text-gray-900 dark:text-gray-100">
+                                File
+                            </th>
+                            <th class="border border-gray-300 dark:border-gray-700 px-4 py-2 text-gray-900 dark:text-gray-100">
+                                Status
+                            </th>
+                            <th class="border border-gray-300 dark:border-gray-700 px-4 py-2 text-gray-900 dark:text-gray-100">
+                                Reason
+                            </th>
+                            <th class="border border-gray-300 dark:border-gray-700 px-4 py-2 text-gray-900 dark:text-gray-100">
+                                Actions
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @php
+                            $files = \App\Models\File::where('domain_id', $currentIndicator['id'])->get();
+                        @endphp
+                        @foreach ($files as $file)
+                            <tr class="bg-white dark:bg-gray-900 hover:bg-gray-100 dark:hover:bg-gray-800 transition">
+                                <!-- File Column -->
+                                <td class="border border-gray-300 dark:border-gray-700 px-4 py-2 text-gray-800 dark:text-gray-300">
+                                    <a href="{{ asset('storage/' . $file->file_path) }}" class="text-blue-500 hover:underline">
+                                        {{ $file->original_name }}
+                                    </a>
+                                </td>
+    
+                                <!-- Status Column -->
+                                <td class="border border-gray-300 dark:border-gray-700 px-4 py-2 text-gray-800 dark:text-gray-300">
+                                    <span class="{{ $file->hasil ? 'text-green-500' : 'text-yellow-500' }}">
+                                        {{ $file->hasil ? 'Approved' : 'Pending' }}
+                                    </span>
+                                </td>
+    
+                                <!-- Reason Column -->
+                                <td class="border border-gray-300 dark:border-gray-700 px-4 py-2 text-gray-800 dark:text-gray-300">
+                                    {{ $file->reasons ?? 'N/A' }}
+                                </td>
+    
+                                <!-- Actions Column -->
+                                <td class="border border-gray-300 dark:border-gray-700 px-4 py-2">
+                                    <div class="relative">
+                                        <button class="bg-gray-300 dark:bg-gray-700 text-gray-800 dark:text-gray-300 px-3 py-2 rounded-md hover:bg-gray-400 dark:hover:bg-gray-600 focus:outline-none"
+                                            onclick="toggleDropdown({{ $file->id }})">
+                                            Actions
+                                        </button>
+                                        <div id="dropdown-{{ $file->id }}" class="hidden absolute bg-white dark:bg-gray-800 rounded-lg shadow-lg mt-2 right-0 z-50">
+                                            <ul class="text-sm text-gray-800 dark:text-gray-300">
+                                                <!-- Update File Option -->
+                                                <li class="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">
+                                                    <label for="update-file-{{ $file->id }}" class="cursor-pointer">Update File</label>
+                                                    <input type="file" id="update-file-{{ $file->id }}" 
+                                                           wire:model="updatedFiles.{{ $file->id }}" 
+                                                           class="hidden">
+                                                </li>
+                                                
+                                                
+                                                {{-- <li class="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">
+                                                    <button onclick="confirmDelete({{ $file->id }})" class="text-red-500 dark:text-red-400">
+                                                        Delete
+                                                    </button>
+                                                </li> --}}
+
+    
+                                                <!-- Delete File Option -->
+                                                <li class="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">
+                                                    <button onclick="confirmDelete({{ $file->id }})" class="text-red-500 dark:text-red-400">
+                                                        Delete
+                                                    </button>
+                                                </li>
+    
+                                                <!-- Provide Reason Option -->
+                                                @if ($isAdmin)
+                                                    <li class="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">
+                                                        <button onclick="openReasonModal('file', {{ $file->id }}, '{{ $file->reasons }}', {{ $file->hasil }})"
+                                                            class="text-blue-500 dark:text-blue-400">
+                                                            Reason
+                                                        </button>
+                                                    </li>
+                                                @endif
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            @else
+                <p class="text-gray-500 dark:text-gray-400">No indicator selected or no files available.</p>
+            @endif
+        </div>
+    </div>
+    
+    <script>
+        function toggleDropdown(id) {
+            const dropdown = document.getElementById(`dropdown-${id}`);
+            dropdown.classList.toggle('hidden');
+        }
+    </script>
+    
 
 
 
