@@ -15,6 +15,7 @@ class File extends Model
         'hasil',
         'reasons',
         'original_name',
+        'context', // Add context
     ];
 
     public function domain()

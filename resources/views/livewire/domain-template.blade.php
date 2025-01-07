@@ -6,18 +6,22 @@
     
     @if (count($indicators) > 1)
         <div class="p-6 border rounded-lg bg-gray-100 dark:bg-gray-800 mb-6">
-            <h1 class="text-2xl font-bold mb-6 text-gray-900 dark:text-gray-100 text-center">Pilih Indikator dari Aspek {{ $selectedCategory }}</h1>
-            <div class="mt-6 mb-6 flex overflow-x-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100 dark:scrollbar-thumb-gray-700 dark:scrollbar-track-gray-800 gap-4 border border-gray-300 dark:border-gray-600 rounded-md p-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200">
+            <h1 class="text-2xl font-bold mb-6 text-gray-900 dark:text-gray-100 text-center">
+                Pilih Indikator dari Aspek {{ $selectedCategory }}
+            </h1>
+            <div
+                class="mt-6 mb-6 flex overflow-x-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100 dark:scrollbar-thumb-gray-700 dark:scrollbar-track-gray-800 gap-4 border border-gray-300 dark:border-gray-600 rounded-md p-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200">
                 @foreach ($indicators as $index => $indicator)
                     <button wire:click="selectIndicator({{ $index }})"
                         class="flex-shrink-0 px-4 py-2 rounded-md text-sm transition text-gray-800 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-600
-                        {{ $currentIndicator['id'] === $indicator['id'] ? 'bg-gray-200  dark:bg-gray-800' : 'bg-blue-500' }}">
+                        {{ $currentIndicator['id'] === $indicator['id'] ? 'bg-gray-200 dark:bg-gray-800' : 'bg-blue-500' }}">
                         {{ $indicator['indikator'] }}
                     </button>
                 @endforeach
             </div>
         </div>
     @endif
+
     
 
     
@@ -44,11 +48,12 @@
                         <button
                             wire:click="saveTingkat({{ $level }})"
                             class="px-4 py-2 rounded-md text-sm transition w-12 text-center text-gray-800 dark:text-gray-200
-                            {{ $tingkat == $level ? 'bg-gray-400 dark:bg-gray-900 hover:bg-gray-400 dark:hover:bg-gray-700' : 'bg-gray-100 dark:bg-gray-600 hover:bg-gray-200 dark:hover:bg-gray-600' }}">
+                            {{ $currentIndicator['tingkat'] == $level ? 'bg-gray-400 dark:bg-gray-900 hover:bg-gray-400 dark:hover:bg-gray-700' : 'bg-gray-100 dark:bg-gray-600 hover:bg-gray-200 dark:hover:bg-gray-600' }}">
                             {{ $level }}
                         </button>
                     @endforeach
                 </div>
+                
                 @if (session()->has('message'))
                     <p class="mt-6 text-sm text-green-500">{{ session('message') }}</p>
                 @endif
@@ -62,22 +67,43 @@
                     Select files to upload. You can upload multiple files at once.
                 </p>
                 <div class="grid grid-cols-3 gap-4">
-                    <!-- Select Files Column -->
+                    <!-- File Upload Section -->
                     <div class="col-span-2">
-                        <label for="files" class="block text-sm font-medium mb-2 text-gray-800 dark:text-gray-200">
-                            Select Files:
-                        </label>
-                        <input type="file" id="files" wire:model="uploadedFiles" multiple
-                            class="block w-full p-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                        @if (!empty($uploadedFiles))
+                            <!-- File Details Section -->
+                            <label class="block text-sm font-medium mb-2 text-gray-800 dark:text-gray-200">
+                                Uploaded Files:
+                            </label>
+                            <ul>
+                                @foreach ($uploadedFiles as $file)
+                                    <li class="text-sm text-gray-800 dark:text-gray-200">{{ $file->getClientOriginalName() }}</li>
+                                @endforeach
+                            </ul>
+                        @else
+                            <!-- File Input Section -->
+                            <label for="files" class="block text-sm font-medium mb-2 text-gray-800 dark:text-gray-200">
+                                Select Files:
+                            </label>
+                            <input type="file" id="files" wire:model="uploadedFiles" multiple
+                                class="block w-full p-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                        @endif
+
+                        <!-- Loading Indicator -->
+                        <div wire:loading wire:target="uploadedFiles" class="text-sm text-blue-500 mt-2">
+                            Uploading files, please wait...
+                        </div>
                     </div>
-            
-                    <!-- Upload Button Column -->
+
+                    <!-- Upload Button -->
                     <div class="flex items-end">
                         <button type="button" wire:click="saveFiles"
-                            class="w-full px-6 py-2 bg-green-500 text-gray-800 dark:text-gray-200 rounded-md hover:bg-green-600 focus:ring-2 focus:ring-green-300 bg-gray-300  dark:bg-gray-900  hover:bg-gray-300 dark:hover:bg-gray-600">
+                            class="w-full px-6 py-2 bg-green-500 text-gray-800 dark:text-gray-200 rounded-md hover:bg-green-600 focus:ring-2 focus:ring-green-300 bg-gray-300  dark:bg-gray-900  hover:bg-gray-300 dark:hover:bg-gray-600"
+                            wire:loading.attr="disabled">
                             Upload Files
                         </button>
                     </div>
+
+                    
                 </div>
             </div>
             
@@ -150,6 +176,7 @@
                                     </button>
                                 @endforeach
                             </div>
+                            
                         </div>
 
                         <!-- Provide Reason -->
@@ -176,7 +203,7 @@
 
     <!-- Enhanced Files Table -->
     {{-- part 4 --}}
-    <div class="p-6 border rounded-lg bg-gray-100 dark:bg-gray-800 mb-6 mt-6">
+    {{-- <div class="p-6 border rounded-lg bg-gray-100 dark:bg-gray-800 mb-6 mt-6">
         <h1 class="text-2xl font-bold mb-6 text-gray-900 dark:text-gray-100">Files</h1>
         <div class="overflow-x-auto">
             @if ($currentIndicator)
@@ -259,7 +286,7 @@
                 <p class="text-gray-500 dark:text-gray-400">No indicator selected or no files available.</p>
             @endif
         </div>
-    </div>
+    </div> --}}
 
 
     <div class="p-6 border rounded-lg bg-gray-100 dark:bg-gray-800 mb-6 mt-6">
@@ -279,7 +306,7 @@
                                 Reason
                             </th>
                             <th class="border border-gray-300 dark:border-gray-700 px-4 py-2 text-gray-900 dark:text-gray-100">
-                                Actions
+                                 
                             </th>
                         </tr>
                     </thead>
@@ -325,13 +352,6 @@
                                                            class="hidden">
                                                 </li>
                                                 
-                                                
-                                                {{-- <li class="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">
-                                                    <button onclick="confirmDelete({{ $file->id }})" class="text-red-500 dark:text-red-400">
-                                                        Delete
-                                                    </button>
-                                                </li> --}}
-
     
                                                 <!-- Delete File Option -->
                                                 <li class="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">
@@ -377,15 +397,22 @@
     <!-- Modal -->
     <div id="reasonModal" class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75 hidden">
         <div class="bg-white dark:bg-gray-900 p-6 rounded-md shadow-lg w-1/3">
-            <h3 id="modalTitle" class="text-lg font-bold mb-4">Provide Reason</h3>
+            <h3 id="modalTitle" class="text-lg font-bold mb-4 text-gray-800 dark:text-gray-100">Provide Reason</h3>
             <textarea id="reasonTextarea"
-                class="w-full p-2 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 rounded-md mb-4"></textarea>
-            <div class="flex justify-end space-x-4">
-                <button onclick="closeReasonModal()" class="px-4 py-2 bg-gray-500 text-white rounded-md">Cancel</button>
-                <button onclick="saveReasonAndStatus(1)"
-                    class="px-4 py-2 bg-green-500 text-white rounded-md">Approve</button>
-                <button onclick="saveReasonAndStatus(0)"
-                    class="px-4 py-2 bg-red-500 text-white rounded-md">Disapprove</button>
+                class="w-full p-2 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100 rounded-md mb-4"></textarea>
+            <div class="flex justify-center gap-4"">
+                <button onclick="closeReasonModal()" 
+                    class="px-4 py-2 rounded-md transition text-gray-800 dark:text-gray-100 bg-gray-200 dark:bg-gray-600 hover:bg-gray-300 dark:hover:bg-gray-700">
+                    Cancel
+                </button>
+                <button onclick="saveReasonAndStatus(1)" 
+                    class="px-4 py-2 rounded-md transition text-gray-800 dark:text-gray-100 bg-gray-200 dark:bg-gray-600 hover:bg-gray-300 dark:hover:bg-gray-700">
+                    Approve
+                </button>
+                <button onclick="saveReasonAndStatus(0)" 
+                    class="px-4 py-2 rounded-md transition text-gray-800 dark:text-gray-100 bg-gray-200 dark:bg-gray-600 hover:bg-gray-300 dark:hover:bg-gray-700">
+                    Disapprove
+                </button>
             </div>
         </div>
     </div>
@@ -393,17 +420,24 @@
     <!-- Delete Confirmation Modal -->
     <div id="deleteModal" class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75 hidden">
         <div class="bg-white dark:bg-gray-900 p-6 rounded-md shadow-lg w-1/3">
-            <h3 class="text-lg font-bold mb-4 text-center">Are you sure you want to delete this file?</h3>
-            <div class="flex justify-center space-x-4">
-                <button onclick="closeDeleteModal()" class="px-4 py-2 bg-gray-500 text-white rounded-md">
+            <h3 class="text-lg font-bold mb-4 text-center text-gray-800 dark:text-gray-100">
+                Are you sure you want to delete this file?
+            </h3>
+            <div class="flex justify-center gap-4"> <!-- Added gap-4 for consistent spacing -->
+                <button onclick="closeDeleteModal()" 
+                    class="px-4 py-2 rounded-md transition text-gray-800 dark:text-gray-100 bg-gray-200 dark:bg-gray-600 hover:bg-gray-300 dark:hover:bg-gray-700">
                     Cancel
                 </button>
-                <button onclick="confirmDeleteAction()" class="px-4 py-2 bg-red-500 text-white rounded-md">
+                <button onclick="confirmDeleteAction()" 
+                    class="px-4 py-2 rounded-md transition text-gray-800 dark:text-gray-100 bg-gray-200 dark:bg-gray-600 hover:bg-gray-300 dark:hover:bg-gray-700">
                     Delete
                 </button>
             </div>
+            
         </div>
     </div>
+
+
 
     <script>
         let modalType = null; // Either 'domain' or 'file'

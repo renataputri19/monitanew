@@ -36,17 +36,27 @@
 
     <!-- JavaScript to toggle sections -->
     <script>
-        function showSection(sectionId) 
-        {
+        function showSection(sectionId) {
+            // Save selected section in localStorage
+            localStorage.setItem('selectedSection', sectionId);
+
+            // Hide all sections
             document.querySelectorAll('.section').forEach(section => {
                 section.classList.add('hidden');
             });
+
+            // Show the selected section
             document.getElementById(sectionId).classList.remove('hidden');
         }
 
-        // Set default visible section
-        document.getElementById('standar-data-statistik').classList.remove('hidden');
+        // Set default visible section based on localStorage
+        const savedSection = localStorage.getItem('selectedSection') || 'standar-data-statistik';
+        document.querySelectorAll('.section').forEach(section => {
+            section.classList.add('hidden');
+        });
+        document.getElementById(savedSection).classList.remove('hidden');
 
-
+        // Set the selected option in the dropdown
+        document.getElementById('section-select').value = savedSection;
     </script>
 </x-filament::page>

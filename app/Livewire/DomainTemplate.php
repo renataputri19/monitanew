@@ -96,24 +96,38 @@ class DomainTemplate extends Component
         // Fetch all indicators for the selected aspek and explicitly convert to array
         $this->indicators = Domain::where('aspek', $this->selectedCategory)->get()->toArray();
     
-        // Set the first indicator as the default
-        if (!empty($this->indicators)) {
-            $this->currentIndicator = $this->indicators[0];
+        // Restore the current indicator from the session or set the first indicator as default
+        $savedIndex = session()->get('currentIndicatorIndex', 0); // Default to 0 if not set
+        if (isset($this->indicators[$savedIndex])) {
+            $this->currentIndicatorIndex = $savedIndex;
+            $this->currentIndicator = $this->indicators[$savedIndex];
+        } else {
+            $this->currentIndicatorIndex = 0;
+            $this->currentIndicator = $this->indicators[0] ?? null;
         }
     
         // Check if the logged-in user is an admin
         $this->isAdmin = auth()->user()->admin ?? false;
     }
     
-    
-
     public function selectIndicator($index)
     {
         if (isset($this->indicators[$index])) {
             $this->currentIndicatorIndex = $index;
-            $this->currentIndicator = $this->indicators[$index];
+    
+            // Fetch the latest data for the selected indicator
+            $this->currentIndicator = Domain::find($this->indicators[$index]['id'])->toArray();
+    
+            // Update the local state for the current indicator
+            $this->indicators[$index] = $this->currentIndicator;
+    
+            // Store the selected index in the session for persistence
+            session()->put('currentIndicatorIndex', $index);
         }
     }
+    
+    
+    
     
     
     
@@ -122,33 +136,35 @@ class DomainTemplate extends Component
     // Save "tingkat" independently
     public function saveTingkat($level)
     {
-        // Ensure domainId is set
-        if (!$this->domainId) {
-            session()->flash('message', 'No domain selected!');
+        // Ensure a current indicator is selected
+        if (!$this->currentIndicator || !isset($this->currentIndicator['id'])) {
+            session()->flash('message', 'No indicator selected!');
             return;
         }
     
-        // Fetch the domain by ID
-        $domain = Domain::find($this->domainId);
+        // Fetch the domain by the current indicator's ID
+        $domain = Domain::find($this->currentIndicator['id']);
     
         if (!$domain) {
             session()->flash('message', 'Domain not found!');
             return;
         }
     
-        // Update tingkat
+        // Update the tingkat for the current indicator
         $domain->tingkat = $level;
         $domain->save();
     
-        // Update the tingkat state to reflect the change in the UI
-        $this->tingkat = $level;
+        // Update the tingkat in the currentIndicator for UI purposes
+        $this->currentIndicator['tingkat'] = $level;
     
         session()->flash('message', 'Tingkat updated successfully!');
     }
     
+    
 
     public function updateTingkatTpb($domainId, $selectedTingkat)
     {
+        // Find the domain by ID
         $domain = Domain::find($domainId);
     
         if (!$domain) {
@@ -156,9 +172,14 @@ class DomainTemplate extends Component
             return;
         }
     
-        // Update the tingkat_tpb value
+        // Update the tingkat_tpb value in the database
         $domain->tingkat_tpb = $selectedTingkat;
         $domain->save();
+    
+        // If the updated domain is the current indicator, update the local state
+        if ($this->currentIndicator['id'] === $domainId) {
+            $this->currentIndicator['tingkat_tpb'] = $selectedTingkat;
+        }
     
         // Provide feedback to the admin
         session()->flash('message', 'Tingkat TPB updated to ' . $selectedTingkat . ' successfully!');
@@ -168,43 +189,55 @@ class DomainTemplate extends Component
     
 
     // Save uploaded files
-    public function saveFiles()
+    public function saveFiles($context = 'pembinaan')
     {
-        $domains = Domain::where('aspek', $this->selectedCategory)->get();
-    
-        if ($domains->isEmpty()) {
-            session()->flash('message', 'No domains found for the selected category!');
+        // Ensure a current indicator is selected
+        if (!$this->currentIndicator) {
+            session()->flash('message', 'No indikator selected!');
             return;
         }
     
-        foreach ($domains as $domain) {
-            // Sanitize folder paths by replacing spaces with underscores
-            $folderPath = "uploads/" . 
-                preg_replace('/\s+/', '_', $domain->domain) . "/" . 
-                preg_replace('/\s+/', '_', $domain->aspek) . "/" . 
-                preg_replace('/\s+/', '_', $domain->indikator);
+        // Fetch the specific domain for the selected indikator
+        $domain = Domain::find($this->currentIndicator['id']);
     
-            foreach ($this->uploadedFiles as $file) {
-                $originalName = $file->getClientOriginalName();
-                $randomName = uniqid() . '.' . $file->getClientOriginalExtension(); // Generate a random filename
-    
-                // Store the file with a random name
-                $filePath = $file->storeAs($folderPath, $randomName, 'public');
-    
-                // Save file information in the database
-                File::create([
-                    'domain_id' => $domain->id,
-                    'file_path' => $filePath,       // Path to the stored file
-                    'original_name' => $originalName, // Store the original filename
-                    'hasil' => false,              // Default approval status
-                    'reasons' => null,             // No reasons initially
-                ]);
-            }
+        if (!$domain) {
+            session()->flash('message', 'Domain not found for the selected indikator!');
+            return;
         }
     
+        // Sanitize folder path by replacing spaces with underscores
+        $folderPath = "uploads/" .
+            $context . "/" . // Add context dynamically
+            preg_replace('/\s+/', '_', $domain->domain) . "/" .
+            preg_replace('/\s+/', '_', $domain->aspek) . "/" .
+            preg_replace('/\s+/', '_', $domain->indikator);
+    
+        // Loop through the uploaded files
+        foreach ($this->uploadedFiles as $file) {
+            $originalName = $file->getClientOriginalName();
+            $randomName = uniqid() . '.' . $file->getClientOriginalExtension(); // Generate a random filename
+    
+            // Store the file with a random name
+            $filePath = $file->storeAs($folderPath, $randomName, 'public');
+    
+            // Save file information in the database
+            File::create([
+                'domain_id' => $domain->id, // Associate with the specific indikator
+                'file_path' => $filePath,
+                'original_name' => $originalName,
+                'hasil' => false, // Default approval status
+                'reasons' => null, // No reasons initially
+                'context' => $context, // Add context
+            ]);
+        }
+    
+        // Clear the uploaded files and reset the view
         $this->uploadedFiles = [];
-        session()->flash('message', 'Files uploaded successfully!');
+        session()->flash('message', 'Files uploaded successfully for the selected indikator!');
     }
+    
+    
+    
     
 
     // Update file details
@@ -239,13 +272,17 @@ class DomainTemplate extends Component
             return;
         }
 
+        // Use the context from the file's existing record
+        $context = $file->context ?? 'pembinaan';
+
         // Delete the old file from storage
         Storage::disk('public')->delete($file->file_path);
 
         // Sanitize folder path
-        $folderPath = "uploads/" .
-            preg_replace('/\s+/', '_', $domain->domain) . "/" .
-            preg_replace('/\s+/', '_', $domain->aspek) . "/" .
+        $folderPath = "uploads/" . 
+            $context . "/" . // Add context to the path
+            preg_replace('/\s+/', '_', $domain->domain) . "/" . 
+            preg_replace('/\s+/', '_', $domain->aspek) . "/" . 
             preg_replace('/\s+/', '_', $domain->indikator);
 
         // Generate a new random file name for storage
@@ -254,9 +291,10 @@ class DomainTemplate extends Component
         // Store the new file in the correct folder
         $newFilePath = $this->updatedFiles[$fileId]->storeAs($folderPath, $randomName, 'public');
 
-        // Update the file path and original name in the database
+        // Update the file path, original name, and keep the existing context in the database
         $file->file_path = $newFilePath;
         $file->original_name = $this->updatedFiles[$fileId]->getClientOriginalName(); // Store the original name
+        $file->context = $context; // Preserve the context
         $file->save();
 
         // Clear the temporary file input
