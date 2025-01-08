@@ -400,7 +400,7 @@
             <h3 id="modalTitle" class="text-lg font-bold mb-4 text-gray-800 dark:text-gray-100">Provide Reason</h3>
             <textarea id="reasonTextarea"
                 class="w-full p-2 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100 rounded-md mb-4"></textarea>
-            <div class="flex justify-center gap-4"">
+            <div class="flex justify-center gap-4">
                 <button onclick="closeReasonModal()" 
                     class="px-4 py-2 rounded-md transition text-gray-800 dark:text-gray-100 bg-gray-200 dark:bg-gray-600 hover:bg-gray-300 dark:hover:bg-gray-700">
                     Cancel

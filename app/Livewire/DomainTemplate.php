@@ -411,4 +411,11 @@ class DomainTemplate extends Component
     {
         return view('livewire.domain-template', ['criteria' => $this->criteria]);
     }
+
+
+
+
+
+
+    
 }
