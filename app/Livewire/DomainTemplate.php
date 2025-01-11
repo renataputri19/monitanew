@@ -32,6 +32,26 @@ class DomainTemplate extends Component
     public $currentIndicatorIndex = 0; // To track the index of the selected indicator
 
 
+    public $selectedFileId = null;
+    public $reasonForFile = '';
+    
+    public function updatedSelectedFileId($fileId)
+    {
+        if ($fileId) {
+            $file = File::find($fileId);
+    
+            if ($file) {
+                $this->reasonForFile = $file->reason; // Assuming 'reason' exists in the File model
+            } else {
+                $this->reasonForFile = '';
+            }
+        } else {
+            $this->reasonForFile = '';
+        }
+    }
+    
+    
+    
 
 
     public function saveDomainReasonAndStatus($domainId, $reason, $status)
@@ -127,6 +147,28 @@ class DomainTemplate extends Component
     }
     
     
+    public function saveReasonAndStatus($indicatorId, $status)
+    {
+        // Find the indicator by ID
+        $indicator = Domain::find($indicatorId);
+
+        if (!$indicator) {
+            session()->flash('message', 'Indicator not found!');
+            return;
+        }
+
+        // Update the reason and status
+        $indicator->reasons = $this->currentIndicator['reasons'];
+        $indicator->disetujui = $status;
+        $indicator->save();
+
+        // Update the current indicator to reflect changes
+        $this->currentIndicator['reasons'] = $indicator->reasons;
+        $this->currentIndicator['disetujui'] = $indicator->disetujui;
+
+        session()->flash('message', 'Indicator updated successfully!');
+    }
+
     
     
     
@@ -345,21 +387,32 @@ class DomainTemplate extends Component
     
     
 
+    public $confirmingDelete = null; // Track the ID of the file being deleted
+
     // Delete a file
     public function deleteFile($fileId)
     {
         $file = File::find($fileId);
-
+    
         if (!$file) {
             session()->flash('message', 'File not found!');
             return;
         }
-
+    
+        // Delete the file from storage
         Storage::disk('public')->delete($file->file_path);
+    
+        // Delete the file record from the database
         $file->delete();
-
+    
+        // Reset the confirmation state
+        $this->confirmingDelete = null;
+    
+        // Notify the user
         session()->flash('message', 'File deleted successfully!');
     }
+    
+
 
     // Approve or disapprove a domain
     public function updateDomainApproval($domainId, $status)
