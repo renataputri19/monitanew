@@ -37,6 +37,9 @@
     <!-- JavaScript to toggle sections -->
     <script>
         function showSection(sectionId) {
+            // Only proceed if a section is selected
+            if (!sectionId) return;
+
             // Save selected section in localStorage
             localStorage.setItem('selectedSection', sectionId);
 
@@ -49,14 +52,17 @@
             document.getElementById(sectionId).classList.remove('hidden');
         }
 
-        // Set default visible section based on localStorage
-        const savedSection = localStorage.getItem('selectedSection') || 'standar-data-statistik';
-        document.querySelectorAll('.section').forEach(section => {
-            section.classList.add('hidden');
-        });
-        document.getElementById(savedSection).classList.remove('hidden');
+        // On page load
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedSection = localStorage.getItem('selectedSection');
 
-        // Set the selected option in the dropdown
-        document.getElementById('section-select').value = savedSection;
+            // Set the dropdown value to saved section or empty
+            document.getElementById('section-select').value = savedSection || '';
+
+            // Only show a section if there's a saved selection
+            if (savedSection) {
+                document.getElementById(savedSection).classList.remove('hidden');
+            }
+        });
     </script>
 </x-filament::page>

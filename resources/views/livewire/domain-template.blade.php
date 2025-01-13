@@ -38,41 +38,28 @@
             <!-- Table Section -->
             <div class="p-6">
                 <div class="relative">
-                    <!-- Scroll Shadow Indicators -->
-                    <div
-                        class="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-white to-transparent dark:from-gray-800 z-10 pointer-events-none">
-                    </div>
-                    <div
-                        class="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-white to-transparent dark:from-gray-800 z-10 pointer-events-none">
-                    </div>
-    
-                    <!-- Scrollable Container -->
-                    <div
-                        class="overflow-x-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent 
-                              dark:scrollbar-thumb-gray-600 dark:scrollbar-track-transparent 
-                              -mx-2 px-2">
-                        <div class="flex gap-3 py-2">
-                            @foreach ($indicators as $index => $indicator)
-                                <button wire:click="selectIndicator({{ $index }})"
-                                    class="flex-shrink-0 px-4 py-2.5 rounded-full text-sm font-medium
-                                           transition-all duration-200 ease-in-out
-                                           focus:outline-none focus:ring-2 focus:ring-offset-2 
-                                           {{ $currentIndicator['id'] === $indicator['id']
-                                               ? 'bg-white text-primary-800 ring-2 ring-primary-500 dark:bg-gray-600 dark:text-primary-100'
-                                               : 'bg-gray-100 text-gray-700 hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-600' }}">
-                                    <div class="flex items-center space-x-2">
-                                        <span class="whitespace-nowrap">{{ $indicator['indikator'] }}</span>
-                                        @if ($currentIndicator['id'] === $indicator['id'])
-                                            <svg class="w-4 h-4 text-primary-600 dark:text-primary-400" fill="none"
-                                                stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M5 13l4 4L19 7" />
-                                            </svg>
-                                        @endif
-                                    </div>
-                                </button>
-                            @endforeach
-                        </div>
+                    <!-- Container with flexible wrap -->
+                    <div class="flex flex-wrap gap-3 ">
+                        @foreach ($indicators as $index => $indicator)
+                            <button wire:click="selectIndicator({{ $index }})"
+                                class="px-4 py-2.5 rounded-full text-sm font-medium
+                                       transition-all duration-200 ease-in-out
+                                       focus:outline-none focus:ring-2 focus:ring-offset-2 
+                                       {{ $currentIndicator['id'] === $indicator['id']
+                                           ? 'bg-white text-primary-800 ring-2 ring-primary-500 dark:bg-gray-600 dark:text-primary-100'
+                                           : 'bg-gray-100 text-gray-700 hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-600' }}">
+                                <div class="flex items-center space-x-2">
+                                    <span>{{ $indicator['indikator'] }}</span>
+                                    @if ($currentIndicator['id'] === $indicator['id'])
+                                        <svg class="w-4 h-4 text-primary-600 dark:text-primary-400" fill="none"
+                                            stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M5 13l4 4L19 7" />
+                                        </svg>
+                                    @endif
+                                </div>
+                            </button>
+                        @endforeach
                     </div>
                 </div>
             </div>
@@ -148,7 +135,8 @@
 
 
 
-    <div class="bg-gray-100 dark:bg-gray-800 border rounded-lg shadow-lg border overflow-hidden mb-6 @if (count($indicators) > 1) mt-6 @endif">
+    <div
+        class="bg-gray-100 dark:bg-gray-800 border rounded-lg shadow-lg border overflow-hidden mb-6 @if (count($indicators) > 1) mt-6 @endif">
         <!-- Header -->
         <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
             <h1 class="text-2xl font-semibold text-gray-900 dark:text-gray-100">
@@ -514,12 +502,18 @@
                                 <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-100">
                                     {{ $currentIndicator['indikator'] }}</h3>
                                 <p class="text-sm text-gray-500 dark:text-gray-400">
-                                    {{ $currentIndicator['disetujui'] ? 'Approved' : 'Pending' }}
-                                    <span
-                                        class="{{ $currentIndicator['disetujui'] ? 'text-green-500' : 'text-yellow-500' }} font-medium">
-                                        • {{ $currentIndicator['disetujui'] ? '✔ Approved' : '⚠ Pending' }}
-                                    </span>
+                                    @if (is_null($currentIndicator['disetujui']))
+                                        Pending
+                                        <span class="text-yellow-500 font-medium">• ⚠ Pending</span>
+                                    @elseif ($currentIndicator['disetujui'] == 0)
+                                        Disapproved
+                                        <span class="text-red-500 font-medium">• ✖ Disapproved</span>
+                                    @elseif ($currentIndicator['disetujui'] == 1)
+                                        Approved
+                                        <span class="text-green-500 font-medium">• ✔ Approved</span>
+                                    @endif
                                 </p>
+
                             </div>
                             <button class="px-3 py-1 bg-gray-200 dark:bg-gray-600 text-sm rounded-full">
                                 ID: {{ $currentIndicator['id'] }}
@@ -1076,10 +1070,10 @@
                                             <div class="relative">
                                                 @if ($confirmingDelete === $file->id)
                                                     <!-- Delete Confirmation State -->
-                                                    <div class="flex items-center gap-2 p-1 bg-gray-200 dark:bg-gray-700 rounded-lg shadow-sm animate-fade-in"
+                                                    <div class="flex items-center gap-2 p-1 rounded-lg shadow-sm animate-fade-in"
                                                         role="alertdialog" aria-label="Confirm deletion">
                                                         <button wire:click="deleteFile({{ $file->id }})"
-                                                            class="inline-flex items-center gap-2 px-3 py-2 bg-red-500 text-gray-800 dark:text-gray-300 rounded-md transition-all duration-200 hover:bg-red-600 focus:ring-2 focus:ring-red-400 focus:outline-none">
+                                                            class="inline-flex items-center gap-2 px-3 py-2 bg-primary-500 text-gray-800 dark:text-gray-300 rounded-md transition-all duration-200 hover:bg-red-600 focus:ring-2 focus:ring-red-400 focus:outline-none">
                                                             <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg"
                                                                 fill="none" viewBox="0 0 24 24"
                                                                 stroke="currentColor">
@@ -1089,7 +1083,7 @@
                                                             <span>Confirm</span>
                                                         </button>
                                                         <button wire:click="$set('confirmingDelete', null)"
-                                                            class="inline-flex items-center gap-2 px-3 py-2 bg-gray-500 text-gray-800 dark:text-gray-300 rounded-md transition-all duration-200 hover:bg-gray-600 focus:ring-2 focus:ring-gray-400 focus:outline-none">
+                                                            class="inline-flex items-center gap-2 px-3 py-2 bg-primary-500 text-gray-800 dark:text-gray-300 rounded-md transition-all duration-200 hover:bg-gray-600 focus:ring-2 focus:ring-gray-400 focus:outline-none">
                                                             <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg"
                                                                 fill="none" viewBox="0 0 24 24"
                                                                 stroke="currentColor">
@@ -1102,7 +1096,7 @@
                                                 @else
                                                     <!-- Initial Delete Button -->
                                                     <button wire:click="$set('confirmingDelete', {{ $file->id }})"
-                                                        class="inline-flex items-center gap-2 px-3 py-2 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-300 rounded-lg transition-all duration-200 hover:bg-red-600 focus:ring-2 focus:ring-red-400 focus:ring-offset-2 focus:outline-none">
+                                                        class="inline-flex items-center gap-2 px-3 py-2 bg-primary-500 text-gray-800 dark:text-gray-300 rounded-lg transition-all duration-200 hover:bg-red-600 focus:ring-2 focus:ring-red-400 focus:ring-offset-2 focus:outline-none">
                                                         <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg"
                                                             fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                             <path stroke-linecap="round" stroke-linejoin="round"

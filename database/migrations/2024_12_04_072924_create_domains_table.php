@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('aspek'); // Aspek name
             $table->string('indikator'); // Indikator name
             $table->integer('tingkat')->nullable(); // Tingkat (level/score)
-            $table->boolean('disetujui')->default(false); // Approval status
+            $table->boolean('disetujui')->nullable(); // Approval status
             $table->text('reasons')->nullable(); // Reasons for approval/rejection
             $table->timestamps(); // created_at and updated_at
             $table->integer('tingkat_tpb')->nullable();
