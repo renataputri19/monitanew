@@ -1,7 +1,295 @@
 <x-filament::page>
+
+
+
+    {{-- Summary Cards --}}
+    {{-- <div class="space-y-6"> --}}
+        {{-- Top Stats Row --}}
+        {{-- <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <x-filament::card
+                class="bg-white dark:bg-gray-800 rounded-xl shadow-sm hover:shadow-md transition-all duration-200">
+                <div class="flex flex-col h-full p-2">
+                    <div class="flex items-center justify-between mb-6">
+                        <span class="text-sm font-medium text-gray-500 dark:text-gray-400">Total Domains</span>
+                        <div class="p-2 bg-orange-100 dark:bg-orange-900/30 rounded-lg">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-orange-600 dark:text-orange-400"
+                                viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z" />
+                                <path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="mt-auto">
+                        <div class="text-4xl font-bold text-gray-900 dark:text-white mb-2">{{ count($domains) }}</div>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">Active domains</p>
+                    </div>
+                </div>
+            </x-filament::card>
+
+            <x-filament::card
+                class="bg-white dark:bg-gray-800 rounded-xl shadow-sm hover:shadow-md transition-all duration-200">
+                <div class="flex flex-col h-full p-2">
+                    <div class="flex items-center justify-between mb-6">
+                        <span class="text-sm font-medium text-gray-500 dark:text-gray-400">Total Aspek</span>
+                        <div class="p-2 bg-indigo-100 dark:bg-indigo-900/30 rounded-lg">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-indigo-600 dark:text-indigo-400"
+                                viewBox="0 0 20 20" fill="currentColor">
+                                <path
+                                    d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="mt-auto">
+                        <div class="text-4xl font-bold text-gray-900 dark:text-white mb-2">{{ $totalAspeks }}</div>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">Total Aspeks Tracked</p>
+                    </div>
+                </div>
+            </x-filament::card>
+
+            <x-filament::card
+                class="bg-white dark:bg-gray-800 rounded-xl shadow-sm hover:shadow-md transition-all duration-200">
+                <div class="flex flex-col h-full p-2">
+                    <div class="flex items-center justify-between mb-6">
+                        <span class="text-sm font-medium text-gray-500 dark:text-gray-400">Total Indicators</span>
+                        <div class="p-2 bg-purple-100 dark:bg-purple-900/30 rounded-lg">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-purple-600 dark:text-purple-400"
+                                viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z" />
+                                <path fill-rule="evenodd"
+                                    d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="mt-auto">
+                        <div class="text-4xl font-bold text-gray-900 dark:text-white mb-2">
+                            {{ collect($domains)->sum(fn($domain) => count($domain['indicators'])) }}
+                        </div>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">Total metrics tracked</p>
+                    </div>
+                </div>
+            </x-filament::card>
+        </div> --}}
+
+        {{-- Total Score Card --}}
+        {{-- <div class="mt-8">
+            <x-filament::card
+                class="bg-white dark:bg-gray-800 rounded-xl shadow-sm hover:shadow-md transition-all duration-200">
+                <div class="flex flex-col p-2">
+                    <div class="flex items-center justify-between mb-6">
+                        <span class="text-sm font-medium text-gray-500 dark:text-gray-400">Total Score</span>
+                        <div class="p-2 bg-green-100 dark:bg-green-900/30 rounded-lg">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-600 dark:text-green-400"
+                                viewBox="0 0 20 20" fill="currentColor">
+                                <path
+                                    d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="text-4xl font-bold text-gray-900 dark:text-white mb-2">
+                            {{ number_format($scores['totalScore'], 2) }}
+                        </div>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">Total Weighted Score Across All Domains</p>
+                    </div>
+                </div>
+            </x-filament::card>
+        </div> --}}
+
+        {{-- Domains Section --}}
+        {{-- <div class="mt-8">
+            <h1 class="text-2xl font-bold text-gray-900 dark:text-white mb-6">Nilai EPSS Dashboard</h1>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                @foreach ($scores['domains'] as $domain)
+                    <x-filament::card
+                        class="bg-white dark:bg-gray-800 rounded-xl shadow-sm hover:shadow-md transition-all duration-200">
+                        <div class="p-2">
+                            <div class="font-bold text-lg text-gray-900 dark:text-white mb-4">{{ $domain['domain'] }}
+                            </div>
+                            <div class="text-4xl font-bold text-gray-900 dark:text-white mb-2">
+                                {{ number_format($domain['score'], 2) }}
+                            </div>
+                            <div class="text-sm text-gray-500 dark:text-gray-400 mb-6">Weighted Score</div>
+                            <div class="space-y-3">
+                                @foreach ($domain['aspeks'] as $aspek => $score)
+                                    <div
+                                        class="flex justify-between items-center py-2 border-b border-gray-100 dark:border-gray-700 last:border-0">
+                                        <span class="text-gray-600 dark:text-gray-300">{{ $aspek }}</span>
+                                        <span
+                                            class="font-medium text-gray-900 dark:text-white">{{ number_format($score, 2) }}</span>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    </x-filament::card>
+                @endforeach
+            </div>
+        </div>
+    </div> --}}
+
+
+
+
+
+
+
+
+
+
+
     <div class="space-y-8">
+
+
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <x-filament::card class="relative overflow-hidden transition-all duration-200 hover:shadow-lg">
+                <div class="flex items-center justify-between">
+                    <div class="text-sm font-medium text-gray-900 dark:text-white">Total Domains</div>
+                    <div class="p-2.5 bg-primary-100/50 dark:bg-primary-900/50 rounded-full">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-primary-600 dark:text-primary-400"
+                            viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z" />
+                            <path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z" />
+                        </svg>
+                    </div>
+                </div>
+                <div class="mt-6">
+                    <div class="text-3xl font-bold text-gray-900 dark:text-white">{{ count($domains) }}</div>
+                    <div class="text-sm text-gray-500 dark:text-gray-400 mt-2">Active domains</div>
+                </div>
+            </x-filament::card>
+
+            <x-filament::card class="relative overflow-hidden transition-all duration-200 hover:shadow-lg">
+                <div class="flex items-center justify-between">
+                    <div class="text-sm font-medium text-gray-900 dark:text-white">Total Aspek</div>
+                    <div class="p-2.5 bg-success-100/50 dark:bg-success-900/50 rounded-full">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-success-600 dark:text-success-400"
+                            viewBox="0 0 20 20" fill="currentColor">
+                            <path
+                                d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                    </div>
+                </div>
+                <div class="mt-6">
+                    <div class="text-3xl font-bold text-gray-900 dark:text-white">{{ $totalAspeks }}</div>
+                    <div class="text-sm text-gray-500 dark:text-gray-400 mt-2">Total Aspeks Tracked</div>
+                </div>
+            </x-filament::card>
+
+            <x-filament::card class="relative overflow-hidden transition-all duration-200 hover:shadow-lg">
+                <div class="flex items-center justify-between">
+                    <div class="text-sm font-medium text-gray-900 dark:text-white">Total Indicators</div>
+                    <div class="p-2.5 bg-warning-100/50 dark:bg-warning-900/50 rounded-full">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-warning-600 dark:text-warning-400"
+                            viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z" />
+                            <path fill-rule="evenodd"
+                                d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z"
+                                clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                </div>
+                <div class="mt-6">
+                    <div class="text-3xl font-bold text-gray-900 dark:text-white">
+                        {{ collect($domains)->sum(fn($domain) => count($domain['indicators'])) }}
+                    </div>
+                    <div class="text-sm text-gray-500 dark:text-gray-400 mt-2">Total metrics tracked</div>
+                </div>
+            </x-filament::card>
+        </div>
+
+        {{-- Total Score Card --}}
+        <div class="mt-6">
+            <x-filament::card class="relative overflow-hidden transition-all duration-200 hover:shadow-lg">
+                <div class="flex items-center justify-between">
+                    <div class="text-sm font-medium text-gray-900 dark:text-white">Total Score</div>
+                    <div class="p-2.5 bg-success-100/50 dark:bg-success-900/50 rounded-full">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-success-600 dark:text-success-400"
+                            viewBox="0 0 20 20" fill="currentColor">
+                            <path
+                                d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                    </div>
+                </div>
+                <div class="mt-6 text-center">
+                    <div class="relative inline-block w-20 h-20">
+                        <svg class="w-full h-full" viewBox="0 0 36 36">
+                            <circle cx="18" cy="18" r="16" fill="none" stroke="#E5E7EB" stroke-width="4" />
+                            <circle 
+                                cx="18" cy="18" r="16" 
+                                fill="none" 
+                                stroke="#10B981" 
+                                stroke-width="4" 
+                                stroke-dasharray="100" 
+                                stroke-dashoffset="{{ 100 - (($scores['totalScore'] / 5) * 100) }}"
+                                transform="rotate(-90 18 18)"
+                            />
+                        </svg>
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <span class="text-xl font-bold text-gray-900 dark:text-white">
+                                {{ number_format($scores['totalScore'], 2) }}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="text-sm text-gray-500 dark:text-gray-400 mt-2">
+                        Total Weighted Score (Max: 5)
+                    </div>
+                </div>
+                
+                
+            </x-filament::card>
+        </div>
+
+        <div class="mt-6 mb-6 pt-2">
+            <h1 class="text-2xl font-bold text-gray-900 dark:text-white mt-6 mb-6">Nilai Domain dan Aspek</h1>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+                @foreach ($scores['domains'] as $domain)
+                    <x-filament::card class="transition-all duration-200 hover:shadow-lg">
+                        <div class="font-bold text-lg text-gray-900 dark:text-white">{{ $domain['domain'] }}</div>
+                        <div class="text-3xl font-bold mt-4 text-gray-900 dark:text-white">
+                            {{ number_format($domain['score'], 2) }}
+                        </div>
+                        <div class="text-sm font-medium text-gray-500 dark:text-gray-400 mt-2">Weighted Score</div>
+                        <ul class="mt-6 space-y-3">
+                            @foreach ($domain['aspeks'] as $aspek => $score)
+                                <li
+                                    class="flex justify-between items-center py-2  border-b border-gray-100 dark:border-gray-800 last:border-0">
+                                    <span class="text-gray-700 dark:text-gray-200">{{ $aspek }}</span>
+                                    <span
+                                        class="font-medium text-gray-900 dark:text-white">{{ number_format($score, 2) }}</span>
+                                </li>
+                            @endforeach
+                            <!-- Total of all aspek scores -->
+                            <li class="flex justify-between items-center py-2 font-semibold text-gray-900 dark:text-white">
+                                <span>Total</span>
+                                <div class="flex items-center gap-2">
+                                    <span>{{ number_format($domain['aspeks']->sum(), 2) }}</span>
+                                    <div class="w-24 h-2 bg-gray-200 dark:bg-gray-800 rounded-lg overflow-hidden">
+                                        <div class="h-full bg-green-500" style="width: {{ ($domain['aspeks']->sum() / 5) * 100 }}%;"></div>
+                                    </div>
+                                    <span class="text-sm text-gray-500 dark:text-gray-400">Max: 5</span>
+                                </div>
+                            </li>
+                            
+                            
+                            
+                        </ul>
+                    </x-filament::card>
+                @endforeach
+            </div>
+            
+        </div>
+
+
+
+
+
+
+
+
         {{-- Summary Cards --}}
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+        {{-- <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
             <x-filament::card>
                 <div class="flex items-center justify-between">
                     <div class="text-sm font-medium text-gray-500 dark:text-gray-400">Total Domains</div>
@@ -21,7 +309,7 @@
 
             <x-filament::card>
                 <div class="flex items-center justify-between">
-                    <div class="text-sm font-medium text-gray-500 dark:text-gray-400">Average Score</div>
+                    <div class="text-sm font-medium text-gray-500 dark:text-gray-400">Total Aspek</div>
                     <div class="p-2 bg-success-50 dark:bg-success-900 rounded-full">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-success-500" viewBox="0 0 20 20"
                             fill="currentColor">
@@ -32,10 +320,12 @@
                 </div>
                 <div class="mt-4">
                     <div class="text-3xl font-bold">
-                        {{ number_format(collect($domains)->flatMap(fn($domain) => collect($domain['indicators'])->pluck('value'))->average(), 1) }}
+                        {{ $totalAspeks }}
                     </div>
-                    <div class="text-sm text-gray-500 dark:text-gray-400 mt-1">Out of 5.0</div>
+                    <div class="text-sm text-gray-500 dark:text-gray-400 mt-4">Total Aspeks Tracked</div>
                 </div>
+
+
             </x-filament::card>
 
             <x-filament::card>
@@ -60,170 +350,56 @@
             </x-filament::card>
         </div>
 
-        {{-- Spider Charts --}}
-        <div class="grid grid-cols-1 xl:grid-cols-2 gap-6 mt-6 mb-6 bg-gray-100 dark:bg-gray-800">
-            @foreach ($domains as $domain)
+
+        <x-filament::card>
+            <div class="flex items-center justify-between">
+                <div class="text-sm font-medium text-gray-500 dark:text-gray-400">Total Score</div>
+                <div class="p-2 bg-success-50 dark:bg-success-900 rounded-full">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-success-500" viewBox="0 0 20 20"
+                        fill="currentColor">
+                        <path
+                            d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                    </svg>
+                </div>
+            </div>
+            <div class="mt-4">
+                <div class="text-3xl font-bold">
+                    {{ number_format($scores['totalScore'], 2) }}
+                </div>
+                <div class="text-sm text-gray-500 dark:text-gray-400 mt-1">Total Weighted Score Across All Domains
+                </div>
+            </div>
+        </x-filament::card>
+
+
+
+        <x-filament::page>
+            <h1 class="text-2xl font-bold mb-6">Nilai EPSS Dashboard</h1>
+
+            @foreach ($scores['domains'] as $domain)
                 <x-filament::card>
-                    <h2 class="text-lg font-medium mb-4 text-black dark:text-white">{{ $domain['domain'] }}</h2>
-                    <div class="text-gray-500 dark:text-gray-400 bg-gray-200 dark:bg-gray-800"
-                        id="chart-{{ $loop->index }}" style="height: 400px;">
+                    <div class="font-bold text-lg">{{ $domain['domain'] }}</div>
+                    <div class="text-3xl font-bold mt-2">
+                        {{ number_format($domain['score'], 2) }}
                     </div>
+                    <div class="text-sm font-medium text-gray-500 dark:text-gray-400 mt-1">Weighted Score</div>
+                    <ul class="mt-4">
+                        @foreach ($domain['aspeks'] as $aspek => $score)
+                            <li class="flex justify-between">
+                                <span>{{ $aspek }}</span>
+                                <span>{{ number_format($score, 2) }}</span>
+                            </li>
+                        @endforeach
+                    </ul>
                 </x-filament::card>
             @endforeach
-        </div>
 
+        </x-filament::page> --}}
+
+ 
 
 
     </div>
-
-    {{-- Include ApexCharts --}}
-    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-
-    <script>
-        window.addEventListener('DOMContentLoaded', (event) => {
-            const domains = @json($domains);
-            const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-            // Function to split long indicator names into arrays
-            function splitIntoArray(name, wordsPerLine = 3) {
-                const words = name.split(' ');
-                const lines = [];
-                for (let i = 0; i < words.length; i += wordsPerLine) {
-                    lines.push(words.slice(i, i + wordsPerLine).join(' '));
-                }
-                return lines; // Return as an array for multiline labels
-            }
-
-            domains.forEach((domain, index) => {
-                const categories = domain.indicators.map((indicator, i) => {
-                    // Logic for domain "Statistik Nasional"
-                    if (domain.domain === "Statistik Nasional") {
-                        // Split all indicators into arrays of 3 words each
-                        return splitIntoArray(indicator.name, 4);
-                    } else {
-                        // For other domains, do not split the first indicator; split the rest
-                        return i === 0 ? indicator.name : splitIntoArray(indicator.name, 3);
-                    }
-                });
-
-                const options = {
-                    plotOptions: {
-                        radar: {
-                            polygons: {
-                                strokeColor: '#e8e8e8',
-                                fill: {
-                                    colors: ['#f8f8f8', '#fff']
-                                }
-                            }
-                        }
-                    },
-                    series: [{
-                        name: 'Score',
-                        data: domain.indicators.map(i => i.value)
-                    }],
-                    chart: {
-                        height: 600, // Chart height
-                        type: 'radar',
-                        toolbar: {
-                            show: true,
-                            tools: {
-                                download: true,
-                                selection: false,
-                                zoom: false,
-                                zoomin: false,
-                                zoomout: false,
-                                pan: false,
-                                reset: false
-                            }
-                        },
-                        dropShadow: {
-                            enabled: true,
-                            blur: 1,
-                            left: 1,
-                            top: 1
-                        },
-                    },
-                    stroke: {
-                        width: 2,
-                        curve: 'smooth'
-                    },
-                    fill: {
-                        opacity: 0.3,
-                        colors: ['#00E396']
-                    },
-                    markers: {
-                        size: 5,
-                        hover: {
-                            size: 8
-                        }
-                    },
-                    xaxis: {
-                        categories: categories, // Updated categories logic
-                        labels: {
-                            style: {
-                                fontSize: '12px',
-                                fontWeight: 800,
-                                color: isDarkMode ? '#9CA3AF' :
-                                    '#6B7280' // Tailwind color for text-gray-500
-                            }
-                        }
-                    },
-
-                    yaxis: {
-                        min: 0,
-                        max: 7, // Set the maximum to 7 for better spacing
-                        tickAmount: 7, // Ensure there are 7 ticks (0-7)
-                        labels: {
-                            formatter: function(value) {
-                                // Display values within 0-5 only
-                                return value > 5 ? '' : value.toFixed(1);
-                            },
-                            style: {
-                                fontSize: '11px', // Increase font size for y-axis labels
-                                fontWeight: 600, // Optional: Make it bold for better visibility
-                                color: '#6B7280' // Tailwind color for text-gray-500
-                            }
-                        }
-                    },
-                    tooltip: {
-                        y: {
-                            formatter: function(value) {
-                                return value.toFixed(1) + ' / 5.0';
-                            }
-                        }
-                    },
-                    theme: {
-                        palette: 'palette1', // Optional: Adjust the chart palette if needed
-                    }
-                };
-
-                const chart = new ApexCharts(document.querySelector(`#chart-${index}`), options);
-                chart.render();
-            });
-        });
-    </script>
-
-
-
-
-    {{-- <style>
-        .apexcharts-title-text {
-            fill: var(--tw-text-gray-500);
-        }
-
-        .apexcharts-xaxis text {
-            fill: var(--tw-text-gray-500);
-        }
-
-        .dark .apexcharts-title-text {
-            fill: var(--tw-text-gray-400);
-        }
-
-        .dark .apexcharts-xaxis text {
-            fill: var(--tw-text-gray-400);
-        }
-    </style> --}}
-
 
 
 

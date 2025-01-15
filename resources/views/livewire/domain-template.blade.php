@@ -499,7 +499,7 @@
                         <div
                             class="flex items-center justify-between border-b border-gray-300 dark:border-gray-600 pb-4 mb-4">
                             <div>
-                                <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-100">
+                                <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-2">
                                     {{ $currentIndicator['indikator'] }}</h3>
                                 <p class="text-sm text-gray-500 dark:text-gray-400">
                                     @if (is_null($currentIndicator['disetujui']))
@@ -515,9 +515,13 @@
                                 </p>
 
                             </div>
-                            <button class="px-3 py-1 bg-gray-200 dark:bg-gray-600 text-sm rounded-full">
-                                ID: {{ $currentIndicator['id'] }}
+                            <button wire:key="indicator-{{ $currentIndicator['id'] }}" class="px-3 py-1 bg-gray-200 dark:bg-gray-600 text-sm rounded-full">
+                                Penilai: {{ $currentIndicator['user']['name'] ?? 'Belum Dinilai' }}
                             </button>
+                            
+
+
+
                         </div>
 
                         <!-- Domain Details -->
@@ -603,6 +607,8 @@
                                         Disapprove
                                     </button>
                                 </div>
+
+
                             </div>
                         @endif
 

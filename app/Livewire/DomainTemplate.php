@@ -8,6 +8,8 @@ use App\Models\Domain;
 use App\Models\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
+use App\Models\User;
+use App\Notifications\UserActionNotification;
 
 class DomainTemplate extends Component
 {
@@ -141,19 +143,23 @@ class DomainTemplate extends Component
     public function mount($selectedCategory)
     {
         $this->selectedCategory = $selectedCategory;
-
-        // Fetch all domains in the selected category
-        $this->criteria = Domain::where('aspek', $this->selectedCategory)->get();
-
+    
+        // Fetch all domains in the selected category and load the user relationship
+        $this->criteria = Domain::where('aspek', $this->selectedCategory)
+            ->with('user') // Load the user relationship
+            ->get();
+    
         // Initialize domainId and tingkat only if there are domains
         if ($this->criteria->isNotEmpty()) {
             $this->domainId = $this->criteria->first()->id; // Initialize with the first domain
             $this->tingkat = $this->criteria->first()->tingkat; // Initialize tingkat
         }
-
+    
         // Fetch all indicators for the selected aspek and explicitly convert to array
-        $this->indicators = Domain::where('aspek', $this->selectedCategory)->get()->toArray();
-
+        $this->indicators = $this->criteria->map(function ($domain) {
+            return $domain->toArray();
+        })->toArray();
+    
         // Restore the current indicator from the session or set the first indicator as default
         $savedIndex = session()->get('currentIndicatorIndex', 0); // Default to 0 if not set
         if (isset($this->indicators[$savedIndex])) {
@@ -163,15 +169,16 @@ class DomainTemplate extends Component
             $this->currentIndicatorIndex = 0;
             $this->currentIndicator = $this->indicators[0] ?? null;
         }
-
+    
         // Initialize file-related properties
         $this->selectedFileId = null;
         $this->selectedFile = null;
         $this->selectedFileReason = '';
-
+    
         // Check if the logged-in user is an admin
         $this->isAdmin = auth()->user()->admin ?? false;
     }
+    
 
     public function selectIndicator($index)
     {
@@ -197,25 +204,25 @@ class DomainTemplate extends Component
 
     public function saveReasonAndStatus($indicatorId, $status)
     {
-        // Find the indicator by ID
-        $indicator = Domain::find($indicatorId);
-
+        $indicator = Domain::with('user')->find($indicatorId);
+    
         if (!$indicator) {
             session()->flash('message', 'Indicator not found!');
             return;
         }
-
-        // Update the reason and status
+    
         $indicator->reasons = $this->currentIndicator['reasons'];
         $indicator->disetujui = $status;
+        $indicator->user_id = auth()->id();
         $indicator->save();
-
-        // Update the current indicator to reflect changes
-        $this->currentIndicator['reasons'] = $indicator->reasons;
-        $this->currentIndicator['disetujui'] = $indicator->disetujui;
-
+    
+        // Fetch updated data
+        $this->currentIndicator = Domain::with('user')->find($indicatorId)->toArray();
+    
         session()->flash('message', 'Indicator updated successfully!');
     }
+    
+    
 
 
 
@@ -256,24 +263,27 @@ class DomainTemplate extends Component
     {
         // Find the domain by ID
         $domain = Domain::find($domainId);
-
+    
         if (!$domain) {
             session()->flash('message', 'Domain not found!');
             return;
         }
-
-        // Update the tingkat_tpb value in the database
+    
+        // Update the tingkat_tpb value and the user who performed the update
         $domain->tingkat_tpb = $selectedTingkat;
+        $domain->user_id = auth()->id(); // Track the user
         $domain->save();
-
+    
         // If the updated domain is the current indicator, update the local state
         if ($this->currentIndicator['id'] === $domainId) {
             $this->currentIndicator['tingkat_tpb'] = $selectedTingkat;
+            $this->currentIndicator['user'] = $domain->user; // Update user information
         }
-
+    
         // Provide feedback to the admin
         session()->flash('message', 'Tingkat TPB updated to ' . $selectedTingkat . ' successfully!');
     }
+    
 
 
 
