@@ -1,13 +1,13 @@
 <x-filament::page>
     <div class="p-6 bg-white dark:bg-gray-800 rounded-lg shadow-lg">
-        <h1 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">Rancangan Timeline EPSS 2025</h1>
+        {{-- <h1 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">Rancangan Timeline EPSS 2025</h1> --}}
 
         <div class="overflow-auto">
             <table class="table-auto border-collapse border border-gray-300 dark:border-gray-600 w-full">
                 <thead>
                     <tr>
-                        <th class="border border-gray-300 dark:border-gray-600 p-2 bg-gray-200 dark:bg-gray-700">Category</th>
-                        <th class="border border-gray-300 dark:border-gray-600 p-2 bg-gray-200 dark:bg-gray-700">Task</th>
+                        <th class="border border-gray-300 dark:border-gray-600 p-2 bg-gray-200 dark:bg-gray-700">Kategori</th>
+                        <th class="border border-gray-300 dark:border-gray-600 p-2 bg-gray-200 dark:bg-gray-700">Kegiatan</th>
                         @foreach (range(1, 12) as $month)
                             <th class="border border-gray-300 dark:border-gray-600 p-2 bg-gray-200 dark:bg-gray-700">
                                 {{ DateTime::createFromFormat('!m', $month)->format('F') }}

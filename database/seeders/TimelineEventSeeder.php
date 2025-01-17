@@ -15,34 +15,70 @@ class TimelineEventSeeder extends Seeder
     {
         $events = [
             [
-                'task' => 'Persiapan Pelaksanaan Penilaian EPSS',
+                'task' => 'Pembinaan dalam Persiapan EPSS',
                 'start_date' => '2025-01-01',
                 'end_date' => '2025-03-15',
-                'category' => 'Preparation',
+                'category' => 'Persiapan Pelaksanaan Penilaian EPSS',
+            ],
+            [
+                'task' => 'Romantik',
+                'start_date' => '2025-01-01',
+                'end_date' => '2025-03-15',
+                'category' => 'Persiapan Pelaksanaan Penilaian EPSS',
+            ],
+            [
+                'task' => 'Koordinasi Kesiapan TPI',
+                'start_date' => '2025-01-01',
+                'end_date' => '2025-03-15',
+                'category' => 'Persiapan Pelaksanaan Penilaian EPSS',
+            ],
+            [
+                'task' => 'Metadata',
+                'start_date' => '2025-01-01',
+                'end_date' => '2025-03-15',
+                'category' => 'Persiapan Pelaksanaan Penilaian EPSS',
             ],
             [
                 'task' => 'Penilaian Mandiri di OPD',
                 'start_date' => '2025-04-01',
                 'end_date' => '2025-05-15',
-                'category' => 'Assessment',
+                'category' => 'Penilaian Mandiri',
             ],
             [
-                'task' => 'Penilaian Dokumen - TPB',
-                'start_date' => '2025-05-16',
+                'task' => 'Penilaian Dokumen',
+                'start_date' => '2025-06-16',
                 'end_date' => '2025-06-30',
-                'category' => 'Document Review',
+                'category' => 'TPB',
             ],
             [
-                'task' => 'Penilaian Interview - TPK',
-                'start_date' => '2025-07-01',
+                'task' => 'Penilaian Dokumen',
+                'start_date' => '2025-06-16',
+                'end_date' => '2025-06-30',
+                'category' => 'TPK',
+            ],
+            [
+                'task' => 'Penilaian Dokumen',
+                'start_date' => '2025-06-16',
+                'end_date' => '2025-06-30',
+                'category' => 'Penyesuaian TPB',
+            ],
+            [
+                'task' => 'Penilaian Interviu',
+                'start_date' => '2025-06-15',
                 'end_date' => '2025-07-31',
-                'category' => 'Interview',
+                'category' => 'Interviu',
+            ],
+            [
+                'task' => 'Penilaian Visitasi',
+                'start_date' => '2025-07-15',
+                'end_date' => '2025-08-1',
+                'category' => 'Visitasi',
             ],
             [
                 'task' => 'Harmonisasi Pleno Provinsi',
                 'start_date' => '2025-08-01',
                 'end_date' => '2025-08-31',
-                'category' => 'Harmonization',
+                'category' => 'Pleno',
             ],
         ];
 

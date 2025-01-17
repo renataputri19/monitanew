@@ -2,500 +2,308 @@
 
 @section('title', 'MONALISA')
 
-@section('styles')
-    <style>
-<style>
-    :root {
-        --primary-color: #2563eb;
-        --secondary-color: #3b82f6;
-        --accent-color: #60a5fa;
-        --success-color: #10b981;
-        --background-light: #f8fafc;
-        --text-primary: #1e293b;
-        --text-secondary: #475569;
-    }
-
-    /* Modern Scrollbar */
-    ::-webkit-scrollbar {
-        width: 8px;
-    }
-
-    ::-webkit-scrollbar-track {
-        background: var(--background-light);
-    }
-
-    ::-webkit-scrollbar-thumb {
-        background: var(--accent-color);
-        border-radius: 4px;
-    }
-
-    /* Enhanced Hero Section */
-    .hero-section {
-        min-height: 90vh;
-        background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
-        position: relative;
-        overflow: hidden;
-    }
-
-    .hero-section::before {
-        content: '';
-        position: absolute;
-        width: 200%;
-        height: 200%;
-        background: 
-            radial-gradient(circle at 20% 20%, rgba(37, 99, 235, 0.1) 0%, transparent 25%),
-            radial-gradient(circle at 80% 80%, rgba(59, 130, 246, 0.1) 0%, transparent 25%),
-            radial-gradient(circle at 50% 50%, rgba(96, 165, 250, 0.05) 0%, transparent 50%);
-        animation: rotate 30s linear infinite;
-    }
-
-    /* Enhanced Cards */
-    .stat-card {
-        background: rgba(255, 255, 255, 0.9);
-        backdrop-filter: blur(10px);
-        border-radius: 20px;
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        overflow: hidden;
-    }
-
-    .stat-card:hover {
-        transform: translateY(-8px) scale(1.02);
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
-        border-color: var(--accent-color);
-    }
-
-    /* Enhanced Feature Icons */
-    .feature-icon {
-        width: 70px;
-        height: 70px;
-        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-        border-radius: 16px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-bottom: 1.5rem;
-        color: white;
-        font-size: 1.75rem;
-        transform: rotate(-5deg);
-        transition: transform 0.3s ease;
-    }
-
-    .card:hover .feature-icon {
-        transform: rotate(0deg) scale(1.1);
-    }
-
-    /* Enhanced System Cards */
-    .system-card {
-        background: white;
-        border-radius: 24px;
-        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        height: 100%;
-        border: 1px solid rgba(0, 0, 0, 0.05);
-        position: relative;
-        overflow: hidden;
-    }
-
-    .system-card::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(135deg, rgba(37, 99, 235, 0.1), rgba(59, 130, 246, 0.1));
-        opacity: 0;
-        transition: opacity 0.4s ease;
-    }
-
-    .system-card:hover::before {
-        opacity: 1;
-    }
-
-    .system-card:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
-    }
-
-    /* Enhanced Sections */
-    .section-title {
-        font-size: 2.5rem;
-        font-weight: 800;
-        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        margin-bottom: 2rem;
-    }
-
-    .section-subtitle {
-        color: var(--text-secondary);
-        font-size: 1.1rem;
-        max-width: 800px;
-        margin: 0 auto 3rem;
-        line-height: 1.8;
-    }
-
-    /* Enhanced Animations */
-    @keyframes float {
-        0%, 100% { transform: translateY(0) rotate(0deg); }
-        50% { transform: translateY(-20px) rotate(2deg); }
-    }
-
-    .animate-float {
-        animation: float 6s ease-in-out infinite;
-    }
-
-    /* Enhanced Icons Grid */
-    .icon-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-        gap: 2.5rem;
-        margin: 3rem 0;
-    }
-
-    .icon-item {
-        text-align: center;
-        padding: 1.5rem;
-        background: white;
-        border-radius: 16px;
-        transition: all 0.3s ease;
-        border: 1px solid rgba(0, 0, 0, 0.05);
-    }
-
-    .icon-item:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
-        border-color: var(--accent-color);
-    }
-
-    .icon-item img {
-        width: 70px;
-        height: 70px;
-        margin-bottom: 1.2rem;
-        transition: transform 0.3s ease;
-    }
-
-    .icon-item:hover img {
-        transform: scale(1.1);
-    }
-
-    /* Enhanced Buttons */
-    .btn-custom {
-        padding: 1rem 2rem;
-        border-radius: 50px;
-        font-weight: 600;
-        transition: all 0.3s ease;
-        position: relative;
-        overflow: hidden;
-    }
-
-    .btn-custom::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(135deg, rgba(255,255,255,0.2), rgba(255,255,255,0));
-        transform: translateX(-100%);
-        transition: transform 0.3s ease;
-    }
-
-    .btn-custom:hover::before {
-        transform: translateX(0);
-    }
-
-    /* Responsive Improvements */
-    @media (max-width: 768px) {
-        .hero-section {
-            min-height: auto;
-            padding: 4rem 0;
-        }
-
-        .section-title {
-            font-size: 2rem;
-        }
-
-        .icon-grid {
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 1.5rem;
-        }
-    }
-</style>
-@endsection
-
 @section('content')
     <!-- Hero Section -->
-    <div class="hero-section d-flex align-items-center py-5">
+    <section class="hero-section d-flex align-items-center mt-6 py-5" data-section="hero">
         <div class="container">
-            <div class="row align-items-center">
+            <div class="row align-items-center hero-content">
                 <div class="col-lg-6 mb-5 mb-lg-0">
-                    <h1 class="display-4 fw-bold mb-4 animate__animated animate__fadeInLeft">
+                    <h1 class="hero-title fade-in-left" data-animation="left">
                         MONALISA
-                        <span class="d-block text-primary fs-2 mt-2">Monitoring dan Evaluasi Statistik Sektoral</span>
+                        <span class="text-gradient">Monitoring dan Evaluasi Statistik Sektoral</span>
                     </h1>
-                    <p class="lead mb-4 animate__animated animate__fadeIn animate__delay-1s">
-                        Tingkatkan kualitas data statistik Batam melalui sistem monitoring real-time dan evaluasi yang
-                        komprehensif.
+                    <p class="hero-subtitle fade-in" data-animation="up">
+                        Meningkatkan kualitas statistik di Batam melalui sistem monitoring real-time yang dirancang khusus
+                        untuk mendukung Evaluasi Penyelenggaraan Statistik Sektoral (EPSS).
                     </p>
-                    <div class="animate__animated animate__fadeInUp animate__delay-2s">
-                        <a href="{{ url('/epss') }}" class="btn btn-primary btn-lg px-5 py-3 rounded-pill">
+                    <div class="fade-in-up" data-animation="up">
+                        <a href="{{ url('/epss') }}" class="hero-cta hover-effect">
                             Mulai Sekarang
                             <i class="fas fa-arrow-right ms-2"></i>
                         </a>
                     </div>
                 </div>
                 <div class="col-lg-6 text-center">
-                    <img src="{{ asset('img/dataa.png') }}" alt="Ilustrasi"
-                        class="img-fluid animate-float animate__animated animate__fadeInRight" style="max-width: 80%;">
+                    <img src="{{ asset('img/data tes.png') }}" alt="Ilustrasi"
+                        class="hero-illustration img-fluid fade-in-right" data-animation="right">
                 </div>
             </div>
         </div>
-    </div>
+    </section>
 
     <!-- Statistics Overview -->
-    <div class="py-5 bg-white">
+    <section class="statistics-section py-5" data-section="statistics">
         <div class="container">
-            <h2 class="text-center mb-5">Statistik Overview</h2>
-            <div class="row g-4">
-                <div class="col-md-4">
-                    <div class="stat-card p-4 text-center h-100">
-                        <div class="feature-icon mx-auto">
-                            <i class="fas fa-chart-line"></i>
+            <h2 class="section-title text-center fade-in" data-animation="up">
+                Statistik Overview
+                <div class="title-decoration"></div>
+            </h2>
+            <div class="stats-grid">
+                <div class="stat-card-modern fade-in" data-animation="left">
+                    <div class="stat-card-content">
+                        {{-- <div class="stat-icon-wrapper">
+                        <i class="fas fa-chart-line"></i>
+                        <div class="stat-icon-bg"></div>
+                    </div> --}}
+                        <div class="stat-info">
+                            <h3>Total Domain</h3>
+                            <div class="stat-number" data-value="5">0</div>
+                            <p>Domain Utama</p>
                         </div>
-                        <h3 class="h5 mb-3">Total Domains</h3>
-                        <div class="display-6 text-primary mb-2">5</div>
-                        <p class="text-muted">Active domains</p>
+                        <div class="stat-decoration"></div>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="stat-card p-4 text-center h-100">
-                        <div class="feature-icon mx-auto">
-                            <i class="fas fa-file-upload"></i>
+
+                <div class="stat-card-modern fade-in" data-animation="up">
+                    <div class="stat-card-content">
+                        {{-- <div class="stat-icon-wrapper">
+                        <i class="fas fa-file-upload"></i>
+                        <div class="stat-icon-bg"></div>
+                    </div> --}}
+                        <div class="stat-info">
+                            <h3>Total Aspek</h3>
+                            <div class="stat-number" data-value="19">0</div>
+                            <p>Aspek yang Dinilai</p>
                         </div>
-                        <h3 class="h5 mb-3">Total Aspek</h3>
-                        <div class="display-6 text-primary mb-2">19</div>
-                        <p class="text-muted">Total Aspeks Tracked</p>
+                        <div class="stat-decoration"></div>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="stat-card p-4 text-center h-100">
-                        <div class="feature-icon mx-auto">
-                            <i class="fas fa-users"></i>
+
+                <div class="stat-card-modern fade-in" data-animation="right">
+                    <div class="stat-card-content">
+                        {{-- <div class="stat-icon-wrapper">
+                        <i class="fas fa-users"></i>
+                        <div class="stat-icon-bg"></div>
+                    </div> --}}
+                        <div class="stat-info">
+                            <h3>Total Indikator</h3>
+                            <div class="stat-number" data-value="38">0</div>
+                            <p>Indikator Terukur</p>
                         </div>
-                        <h3 class="h5 mb-3">Total Indicators</h3>
-                        <div class="display-6 text-primary mb-2">38</div>
-                        <p class="text-muted">Total metrics tracked</p>
+                        <div class="stat-decoration"></div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </section>
 
     <!-- About Section -->
-    <div class="about-section">
+    <section class="about-section py-5 bg-light" id="about" data-section="about">
         <div class="container">
-            <h2 class="text-center mb-5">Tentang Statistik Sektoral dan EPSS</h2>
-            <p class="text-center mb-5">
-                Statistik Sektoral adalah kumpulan data statistik yang bertujuan memenuhi kebutuhan spesifik kementerian
-                atau lembaga pemerintah, baik dilakukan secara mandiri atau bersama dengan BPS. EPSS adalah kerangka kerja
-                yang digunakan untuk mengevaluasi proses ini, menjamin kualitas dan efektivitas pengumpulan serta pengolahan
-                data statistik sektoral.
+            <h2 class="section-title text-center fade-in" data-animation="up">Tentang Statistik Sektoral dan EPSS
+                <div class="title-decoration"></div>
+            </h2>
+
+            <p class="section-subtitle text-center fade-in" data-animation="up">
+                Statistik Sektoral adalah elemen penting untuk mendukung tugas pembangunan dan pemerintahan melalui data
+                yang akurat dan terpercaya. Dengan kerangka Evaluasi Penyelenggaraan Statistik Sektoral (EPSS), setiap
+                instansi pemerintah dapat meningkatkan efisiensi, transparansi, dan akuntabilitas penyelenggaraan statistik
+                sesuai prinsip Satu Data Indonesia
             </p>
-            <div class="row justify-content-center" data-aos="fade-up">
-                <!-- Icon and text pairs go here, repeat this column structure for each icon -->
-                <div class="col-6 col-md-2 mb-3">
-                    <div class="icon-container d-flex justify-content-center mb-2">
-                        <!-- Include your icon image here -->
-                        <img src="{{ asset('img/sdi.png') }}" alt="Satu Data Indonesia" class="img-fluid">
+
+            <div class="about-icon-grid">
+                <div class="about-icon-card">
+                    <div class="about-icon-wrapper">
+                        <i class="fas fa-database"></i>
                     </div>
-                    <p class="text-center icon-text">Satu Data Indonesia</p>
+                    <h3>Satu Data Indonesia</h3>
+                    <p>Mewujudkan interoperabilitas dan keterpaduan data melalui standar, metadata, dan kode referensi yang
+                        mendukung tata kelola data lintas instansi.</p>
                 </div>
-                <div class="col-6 col-md-2 mb-3">
-                    <div class="icon-container d-flex justify-content-center mb-2">
-                        <!-- Include your icon image here -->
-                        <img src="{{ asset('img/kd.png') }}" alt="Kualitas Data" class="img-fluid">
+
+                <div class="about-icon-card">
+                    <div class="about-icon-wrapper">
+                        <i class="fas fa-chart-line"></i>
                     </div>
-                    <p class="text-center icon-text">Kualitas Data</p>
+                    <h3>Kualitas Data</h3>
+                    <p>Menjamin akurasi dan keandalan data melalui penerapan Quality Gates yang sistematis untuk mendukung
+                        kebijakan publik berbasis bukti.</p>
                 </div>
-                <div class="col-6 col-md-2 mb-3">
-                    <div class="icon-container d-flex justify-content-center mb-2">
-                        <!-- Include your icon image here -->
-                        <img src="{{ asset('img/pbs.png') }}" alt="Proses Bisnis Statistik" class="img-fluid">
+
+                <div class="about-icon-card">
+                    <div class="about-icon-wrapper">
+                        <i class="fas fa-cogs"></i>
                     </div>
-                    <p class="text-center icon-text">Proses Bisnis Statistik</p>
+                    <h3>Proses Bisnis Statistik</h3>
+                    <p>Mengoptimalkan alur kerja statistik melalui model Generic Statistical Business Process Model (GSBPM)
+                        untuk efisiensi di setiap tahapan, mulai dari perencanaan hingga diseminasi data.</p>
                 </div>
-                <div class="col-6 col-md-2 mb-3">
-                    <div class="icon-container d-flex justify-content-center mb-2">
-                        <!-- Include your icon image here -->
-                        <img src="{{ asset('img/kelembagaan.png') }}" alt="Kelembagaan" class="img-fluid">
+
+                <div class="about-icon-card">
+                    <div class="about-icon-wrapper">
+                        <i class="fas fa-building"></i>
                     </div>
-                    <p class="text-center icon-text">Kelembagaan</p>
+                    <h3>Kelembagaan</h3>
+                    <p>Memastikan independensi, profesionalitas, dan koordinasi antar instansi untuk menyelenggarakan
+                        statistik yang berkualitas dan berdaya guna.</p>
                 </div>
-                <div class="col-6 col-md-2 mb-3">
-                    <div class="icon-container d-flex justify-content-center mb-2">
-                        <!-- Include your icon image here -->
-                        <img src="{{ asset('img/sn.png') }}" alt="Statistik Nasional" class="img-fluid">
+
+                <div class="about-icon-card">
+                    <div class="about-icon-wrapper">
+                        <i class="fas fa-flag"></i>
                     </div>
-                    <p class="text-center icon-text">Statistik Nasional</p>
+                    <h3>Statistik Nasional</h3>
+                    <p>Memberikan gambaran menyeluruh dan terintegrasi dari data statistik nasional untuk mendukung
+                        kebijakan strategis yang efektif.</p>
                 </div>
-                <!-- Repeat for other icons -->
             </div>
         </div>
-    </div>
+    </section>
 
 
 
     <!-- Features Section -->
-    <div class="py-5 bg-light">
+    <section class="features-section py-5" id="features" data-section="features">
         <div class="container">
-            <h2 class="text-center mb-5">Fitur Utama</h2>
-            <div class="row g-4">
-                <div class="col-md-4">
-                    <div class="card border-0 h-100 shadow-sm">
-                        <div class="card-body p-4">
-                            <div class="feature-icon mb-3">
-                                <i class="fas fa-upload"></i>
-                            </div>
-                            <h3 class="h5 mb-3">Upload Data</h3>
-                            <p class="text-muted">Upload dan kelola data statistik dengan mudah dan aman</p>
+            <h2 class="section-title text-center fade-in" data-animation="up">
+                Fitur Utama
+                <div class="title-decoration"></div>
+            </h2>
+            <div class="features-grid">
+                <!-- Upload Data Feature -->
+                <div class="feature-card fade-in" data-animation="left">
+                    <div class="feature-card-inner">
+                        <div class="feature-icon-wrapper">
+                            <div class="feature-icon-bg"></div>
+                            <i class="fas fa-upload"></i>
                         </div>
+                        <div class="feature-content">
+                            <h3>Upload Dokumen</h3>
+                            <p>Unggah dokumen sesuai domain, aspek, dan indikator dengan mudah dan aman</p>
+                            <div class="feature-hover-content">
+                                <ul class="feature-details">
+                                    <li>Drag & drop file</li>
+                                    <li>Validasi format otomatis</li>
+                                    <li>Penyimpanan terjamin</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="feature-card-decoration"></div>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="card border-0 h-100 shadow-sm">
-                        <div class="card-body p-4">
-                            <div class="feature-icon mb-3">
-                                <i class="fas fa-chart-bar"></i>
-                            </div>
-                            <h3 class="h5 mb-3">Monitoring Real-time</h3>
-                            <p class="text-muted">Pantau perkembangan data statistik secara real-time</p>
+
+                <!-- Monitoring Feature -->
+                <div class="feature-card fade-in" data-animation="up">
+                    <div class="feature-card-inner">
+                        <div class="feature-icon-wrapper">
+                            <div class="feature-icon-bg"></div>
+                            <i class="fas fa-chart-bar"></i>
                         </div>
+                        <div class="feature-content">
+                            <h3>Monitoring Real-time</h3>
+                            <p>Pantau perkembangan indikator secara langsung melalui dashboard</p>
+                            <div class="feature-hover-content">
+                                <ul class="feature-details">
+                                    <li>Pembaruan data real-time</li>
+                                    <li>Visualisasi progres indikator</li>
+                                    <li>Notifikasi otomatis</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="feature-card-decoration"></div>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="card border-0 h-100 shadow-sm">
-                        <div class="card-body p-4">
-                            <div class="feature-icon mb-3">
-                                <i class="fas fa-clipboard-check"></i>
-                            </div>
-                            <h3 class="h5 mb-3">Evaluasi Otomatis</h3>
-                            <p class="text-muted">Evaluasi kualitas data dengan sistem penilaian otomatis</p>
+
+                <!-- Evaluation Feature -->
+                <div class="feature-card fade-in" data-animation="right">
+                    <div class="feature-card-inner">
+                        <div class="feature-icon-wrapper">
+                            <div class="feature-icon-bg"></div>
+                            <i class="fas fa-clipboard-check"></i>
                         </div>
+                        <div class="feature-content">
+                            <h3>Evaluasi Otomatis</h3>
+                            <p>Menghitung nilai dan tingkat kematangan indikator secara instan</p>
+                            <div class="feature-hover-content">
+                                <ul class="feature-details">
+                                    <li>Penilaian berbasis indikator EPSS</li>
+                                    <li>Nilai kematangan terintegrasi</li>
+                                    <li>Hasil evaluasi siap diakses</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="feature-card-decoration"></div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-
-
+        <div class="features-bg-decoration"></div>
+    </section>
 
     <!-- Integrated Systems Section -->
-    <div class="integration-section">
+    <!-- Integrated Systems Section -->
+    <section class="integration-section py-5" id="systems" data-section="systems">
         <div class="container">
-            <h2 class="text-center mb-5">Sistem Terintegrasi</h2>
-            <div class="row g-4">
-                <!-- Romantik System -->
-                <div class="col-md-6 col-lg-4">
-                    <div class="system-card p-4">
-                        <div class="system-icon mx-auto">
-                            <i class="fas fa-heart fa-2x text-primary"></i>
+            <h2 class="section-title text-center fade-in" data-animation="up">Sistem Terintegrasi
+                <div class="title-decoration"></div>
+            </h2>
+            <div class="systems-grid">
+                <div class="system-card fade-in" data-animation="up">
+                    <div class="system-card-inner">
+                        <div class="system-content">
+                            {{-- <div class="system-icon-wrapper">
+                            <i class="fas fa-heart"></i>
+                        </div> --}}
+                            <h3>Sistem Romantik</h3>
+                            <p>Platform pelaporan dan rekomendasi kegiatan statistik, memastikan seluruh aktivitas statistik terdokumentasi secara tepat dan terstandar.</p>
+                            <div class="system-features">
+                                <span><i class="fas fa-check-circle"></i> Pelaporan Real-time</span>
+                                <span><i class="fas fa-check-circle"></i> Rekomendasi Otomatis</span>
+                            </div>
                         </div>
-                        <h3 class="h5 mb-3">Sistem Romantik</h3>
-                        <p class="text-muted mb-4">Sistem Romantik digunakan untuk pelaporan dan rekomendasi acara
-                            statistik, memastikan semua kegiatan statistik dasar dilaporkan secara tepat.</p>
-                        <a href="https://romantik.web.bps.go.id/" target="_blank"
-                            class="btn btn-outline-primary rounded-pill px-4">
-                            Kunjungi Romantik
-                            <i class="fas fa-arrow-right ms-2"></i>
-                        </a>
+                        <div class="system-action">
+                            <a href="https://romantik.web.bps.go.id/" target="_blank" class="system-button">
+                                <span>Kunjungi Romantik</span>
+                                <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
                     </div>
                 </div>
 
-                <!-- INDAH System -->
-                <div class="col-md-6 col-lg-4">
-                    <div class="system-card p-4">
-                        <div class="system-icon mx-auto">
-                            <i class="fas fa-database fa-2x text-primary"></i>
+                <div class="system-card fade-in" data-animation="up">
+                    <div class="system-card-inner">
+                        <div class="system-content">
+                            {{-- <div class="system-icon-wrapper">
+                            <i class="fas fa-database"></i>
+                        </div> --}}
+                            <h3>Indonesia Data Hub (INDAH)</h3>
+                            <p>Platform kolaborasi lintas instansi yang meningkatkan literasi dan nilai data melalui integrasi dan interoperabilitas.</p>
+                            <div class="system-features">
+                                <span><i class="fas fa-check-circle"></i> Kolaborasi Terpadu</span>
+                                <span><i class="fas fa-check-circle"></i> Interoperabilitas Data</span>
+                            </div>
                         </div>
-                        <h3 class="h5 mb-3">Indonesia Data Hub (INDAH)</h3>
-                        <p class="text-muted mb-4">Platform one stop collaboration untuk meningkatkan literasi data dan
-                            value of statistics serta mendukung interoperabilitas data.</p>
-                        <a href="https://indah.bps.go.id/" target="_blank"
-                            class="btn btn-outline-primary rounded-pill px-4">
-                            Kunjungi INDAH
-                            <i class="fas fa-arrow-right ms-2"></i>
-                        </a>
+                        <div class="system-action">
+                            <a href="https://indah.bps.go.id/" target="_blank" class="system-button">
+                                <span>Kunjungi INDAH</span>
+                                <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Simbatik System -->
-                <div class="col-md-6 col-lg-4">
-                    <div class="system-card p-4">
-                        <div class="system-icon mx-auto">
-                            <i class="fas fa-chart-line fa-2x text-primary"></i>
+                <div class="system-card fade-in" data-animation="up">
+                    <div class="system-card-inner">
+                        <div class="system-content">
+                            {{-- <div class="system-icon-wrapper">
+                            <i class="fas fa-chart-line"></i>
+                        </div> --}}
+                            <h3>Sistem Simbatik</h3>
+                            <p>Platform pengelolaan dokumen dan indikator EPSS yang mempermudah dokumentasi dan validasi statistik sektoral.</p>
+                            <div class="system-features">
+                                <span><i class="fas fa-check-circle"></i> Dokumentasi Terstruktur</span>
+                                <span><i class="fas fa-check-circle"></i> Verifikasi Otomatis</span>
+                            </div>
                         </div>
-                        <h3 class="h5 mb-3">Sistem Simbatik</h3>
-                        <p class="text-muted mb-4">Platform untuk mengunggah dokumen dan indikator EPSS, memudahkan proses
-                            dokumentasi dan verifikasi statistik sektoral.</p>
-                        <a href="https://epss.web.bps.go.id/home" target="_blank"
-                            class="btn btn-outline-primary rounded-pill px-4">
-                            Kunjungi Simbatik
-                            <i class="fas fa-arrow-right ms-2"></i>
-                        </a>
+                        <div class="system-action">
+                            <a href="https://epss.web.bps.go.id/home" target="_blank" class="system-button">
+                                <span>Kunjungi Simbatik</span>
+                                <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-@endsection
-
-@section('scripts')
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Enhanced scroll reveal animation
-    const animateElements = document.querySelectorAll('.stat-card, .card, .system-card, .icon-item');
-    
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('animate__animated');
-                
-                // Randomize animation for more dynamic feel
-                const animations = ['animate__fadeInUp', 'animate__fadeInLeft', 'animate__fadeInRight'];
-                const randomAnimation = animations[Math.floor(Math.random() * animations.length)];
-                
-                entry.target.classList.add(randomAnimation);
-                observer.unobserve(entry.target);
-            }
-        });
-    }, {
-        threshold: 0.1,
-        rootMargin: '50px'
-    });
-
-    animateElements.forEach(element => observer.observe(element));
-
-    // Add smooth scroll behavior
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            document.querySelector(this.getAttribute('href')).scrollIntoView({
-                behavior: 'smooth'
-            });
-        });
-    });
-
-    // Add parallax effect to hero section
-    window.addEventListener('scroll', function() {
-        const scrolled = window.pageYOffset;
-        const parallaxElements = document.querySelectorAll('.hero-section');
-        
-        parallaxElements.forEach(element => {
-            const speed = 0.5;
-            element.style.transform = `translateY(${scrolled * speed}px)`;
-        });
-    });
-});
-</script>
+    </section>
 @endsection

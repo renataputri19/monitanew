@@ -140,10 +140,10 @@
         <!-- Header -->
         <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
             <h1 class="text-2xl font-semibold text-gray-900 dark:text-gray-100">
-                {{ $currentIndicator['indikator'] ?? 'Select an Indicator' }}
+                {{ $currentIndicator['indikator'] ?? 'Pilih Indikator' }}
             </h1>
             <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                Manage indicator levels and upload supporting documents
+                Kelola tingkat indikator dan unggah dokumen pendukung
             </p>
         </div>
 
@@ -154,7 +154,7 @@
                 <div class="p-6 bg-white dark:bg-gray-700 rounded-xl shadow-lg transition hover:shadow-2xl">
                     <h2 class="text-lg font-bold mb-4 text-gray-900 dark:text-gray-100">Pilih Tingkat</h2>
                     <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">
-                        Click on the desired level to update the "Tingkat" automatically.
+                        Klik pada tingkat yang diinginkan untuk memperbarui secara otomatis.
                     </p>
                     <div class="flex items-center gap-2 flex-wrap mb-4">
                         @foreach (range(1, 5) as $level)
@@ -174,9 +174,9 @@
 
                 <!-- Upload Files Section -->
                 <div class="p-6 bg-white dark:bg-gray-700 rounded-xl shadow-lg transition hover:shadow-2xl">
-                    <h2 class="text-lg font-bold mb-4 text-gray-900 dark:text-gray-100">Upload Files</h2>
+                    <h2 class="text-lg font-bold mb-4 text-gray-900 dark:text-gray-100">Unggah Dokumen</h2>
                     <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">
-                        Select files to upload, or drag and drop. You can upload multiple files at once.
+                        Pilih dokumen untuk diunggah atau seret dan lepaskan. Anda dapat mengunggah beberapa dokumen sekaligus.
                     </p>
                     <div class="grid grid-cols-3 gap-4">
                         <!-- File Upload Section -->
@@ -184,7 +184,7 @@
                             @if (!empty($uploadedFiles))
                                 <!-- File Details Section -->
                                 <label class="block text-sm font-medium mb-2 text-gray-800 dark:text-gray-200">
-                                    Uploaded Files:
+                                    Dokumen Terunggah:
                                 </label>
                                 <ul>
                                     @foreach ($uploadedFiles as $file)
@@ -196,7 +196,7 @@
                                 <!-- File Input Section -->
                                 <label for="files"
                                     class="block text-sm font-medium mb-2 text-gray-800 dark:text-gray-200">
-                                    Select Files:
+                                    Pilih Dokumen:
                                 </label>
                                 <input type="file" id="files" wire:model="uploadedFiles" multiple
                                     class="block w-full p-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none">
@@ -204,7 +204,7 @@
 
                             <!-- Loading Indicator -->
                             <div wire:loading wire:target="uploadedFiles" class="text-sm text-blue-500 mt-2">
-                                Uploading files, please wait...
+                                Mengunggah dokumen, harap tunggu...
                             </div>
                         </div>
 
@@ -219,7 +219,7 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
                                 </svg>
-                                Upload Files
+                                Unggah Dokumen
                             </button>
                         </div>
 
@@ -481,9 +481,9 @@
     <div class="bg-gray-100 dark:bg-gray-800 border rounded-lg  shadow-lg border overflow-hidden mb-6 mt-6">
         <!-- Header -->
         <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-            <h1 class="text-2xl font-semibold text-gray-900 dark:text-gray-100">Assessment Management</h1>
+            <h1 class="text-2xl font-semibold text-gray-900 dark:text-gray-100">Manajemen Penilaian</h1>
             <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                Review and manage indicator assessments
+                Tinjau dan kelola hasil penilaian indikator
             </p>
         </div>
 
@@ -503,14 +503,14 @@
                                     {{ $currentIndicator['indikator'] }}</h3>
                                 <p class="text-sm text-gray-500 dark:text-gray-400">
                                     @if (is_null($currentIndicator['disetujui']))
-                                        Pending
-                                        <span class="text-yellow-500 font-medium">• ⚠ Pending</span>
+                                    Menunggu Penilaian
+                                        <span class="text-yellow-500 font-medium">• ⚠ Menunggu</span>
                                     @elseif ($currentIndicator['disetujui'] == 0)
-                                        Disapproved
-                                        <span class="text-red-500 font-medium">• ✖ Disapproved</span>
+                                    Tidak Disetujui
+                                        <span class="text-red-500 font-medium">• ✖ Tidak Disetujui</span>
                                     @elseif ($currentIndicator['disetujui'] == 1)
-                                        Approved
-                                        <span class="text-green-500 font-medium">• ✔ Approved</span>
+                                    Disetujui
+                                        <span class="text-green-500 font-medium">• ✔ Disetujui</span>
                                     @endif
                                 </p>
 
@@ -529,20 +529,20 @@
                             <div>
                                 <span class="fs-6 text-gray-600 dark:text-gray-400 font-medium">Tingkat (User):</span>
                                 <span class="fs-6 text-gray-800 dark:text-gray-100 font-medium">
-                                    {{ $currentIndicator['tingkat'] ?? 'N/A' }}
+                                    {{ $currentIndicator['tingkat'] ?? 'Belum Dinilai' }}
                                 </span>
                             </div>
                             <div>
                                 <span class="fs-6 text-gray-600 dark:text-gray-400 font-medium">Tingkat TPB
                                     (Admin):</span>
                                 <span class="fs-6 text-gray-800 dark:text-gray-100 font-medium">
-                                    {{ $currentIndicator['tingkat_tpb'] ?? 'N/A' }}
+                                    {{ $currentIndicator['tingkat_tpb'] ?? 'Belum Dinilai' }}
                                 </span>
                             </div>
                             <div>
-                                <span class="fs-6 text-gray-600 dark:text-gray-400 font-medium">Reason:</span>
+                                <span class="fs-6 text-gray-600 dark:text-gray-400 font-medium">Alasan:</span>
                                 <span class="fs-6 text-gray-800 dark:text-gray-100 whitespace-normal font-medium">
-                                    {{ $currentIndicator['reasons'] ?? 'N/A' }}
+                                    {{ $currentIndicator['reasons'] ?? 'Tidak Ada Alasan' }}
                                 </span>
                             </div>
                         </div>
@@ -587,7 +587,7 @@
                                 <div>
                                     <label for="reason-{{ $currentIndicator['id'] }}"
                                         class="block text-sm font-semibold text-gray-800 dark:text-gray-200 mb-2 mt-2">
-                                        Provide a Reason:
+                                        Masukkan Alasan:
                                     </label>
                                     <textarea id="reason-{{ $currentIndicator['id'] }}" wire:model.lazy="currentIndicator.reasons"
                                         class="w-full mb-2 p-3 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-200 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
@@ -599,12 +599,12 @@
                                     <!-- Approve Button -->
                                     <button wire:click="saveReasonAndStatus({{ $currentIndicator['id'] }}, 1)"
                                         class="px-3 py-2 text-gray-800 dark:text-gray-200 bg-white dark:bg-gray-900 font-semibold rounded-md shadow-md transition hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
-                                        Approve
+                                        Setujui
                                     </button>
                                     <!-- Disapprove Button -->
                                     <button wire:click="saveReasonAndStatus({{ $currentIndicator['id'] }}, 0)"
                                         class="px-3 py-2 text-gray-800 dark:text-gray-200 bg-white dark:bg-gray-900 font-semibold rounded-md shadow-md transition hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
-                                        Disapprove
+                                        Tolak
                                     </button>
                                 </div>
 
@@ -621,9 +621,8 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
                     </svg>
-                    <h3 class="mt-2 text-sm font-medium text-gray-900 dark:text-gray-100">No indicator selected</h3>
-                    <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Choose an indicator to view its assessment
-                        details</p>
+                    <h3 class="mt-2 text-sm font-medium text-gray-900 dark:text-gray-100">Tidak ada indikator yang dipilih</h3>
+                    <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Pilih indikator untuk melihat detail penilaiannya.</p>
                 </div>
             @endif
         </div>
@@ -985,9 +984,9 @@
     <div class="bg-gray-100 dark:bg-gray-800 border rounded-lg  shadow-lg border overflow-hidden mb-6 mt-6">
         <!-- Header -->
         <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-            <h1 class="text-2xl font-semibold text-gray-900 dark:text-gray-100">Files Management</h1>
+            <h1 class="text-2xl font-semibold text-gray-900 dark:text-gray-100">Manajemen Dokumen</h1>
             <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                Manage and track your uploaded files
+                Kelola dan pantau dokumen yang telah diunggah
             </p>
         </div>
 
@@ -1000,7 +999,7 @@
                             <tr>
                                 <th
                                     class="border border-gray-300 dark:border-gray-700 px-4 py-2 text-gray-900 dark:text-gray-100">
-                                    File
+                                    Dokumen
                                 </th>
                                 <th
                                     class="border border-gray-300 dark:border-gray-700 px-4 py-2 text-gray-900 dark:text-gray-100">
@@ -1008,11 +1007,11 @@
                                 </th>
                                 <th
                                     class="border border-gray-300 dark:border-gray-700 px-4 py-2 text-gray-900 dark:text-gray-100">
-                                    Reason
+                                    Alasan
                                 </th>
                                 <th
                                     class="border border-gray-300 dark:border-gray-700 px-4 py-2 text-gray-900 dark:text-gray-100">
-                                    Action
+                                    Aksi
                                 </th>
                             </tr>
                         </thead>
@@ -1032,18 +1031,18 @@
                                         </a>
                                     </td>
 
-                                    <!-- Status Column -->
+                                    <!-- Status Column DISINI ADA PERBAIKAN NANTI--> 
                                     <td
                                         class="border border-gray-300 dark:border-gray-700 px-4 py-2 text-gray-800 dark:text-gray-300">
                                         <span class="{{ $file->hasil ? 'text-green-500' : 'text-yellow-500' }}">
-                                            {{ $file->hasil ? 'Approved' : 'Pending' }}
+                                            {{ $file->hasil ? 'Disetujui' : 'Menunggu Persetujuan' }}
                                         </span>
                                     </td>
 
                                     <!-- Reason Column -->
                                     <td
                                         class="border border-gray-300 dark:border-gray-700 px-4 py-2 text-gray-800 dark:text-gray-300">
-                                        {{ $file->reasons ?? 'N/A' }}
+                                        {{ $file->reasons ?? 'Tidak Ada Alasan' }}
                                     </td>
 
                                     <!-- Actions Column -->
@@ -1060,7 +1059,7 @@
                                                             stroke-width="2"
                                                             d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
                                                     </svg>
-                                                    <span>Update</span>
+                                                    <span>Perbarui</span>
                                                 </label>
                                                 <input type="file" id="update-file-{{ $file->id }}"
                                                     wire:model="updatedFiles.{{ $file->id }}" class="hidden"
@@ -1086,7 +1085,7 @@
                                                                 <path stroke-linecap="round" stroke-linejoin="round"
                                                                     stroke-width="2" d="M5 13l4 4L19 7" />
                                                             </svg>
-                                                            <span>Confirm</span>
+                                                            <span>Ya, Lanjutkan</span>
                                                         </button>
                                                         <button wire:click="$set('confirmingDelete', null)"
                                                             class="inline-flex items-center gap-2 px-3 py-2 bg-primary-500 text-gray-800 dark:text-gray-300 rounded-md transition-all duration-200 hover:bg-gray-600 focus:ring-2 focus:ring-gray-400 focus:outline-none">
@@ -1096,7 +1095,7 @@
                                                                 <path stroke-linecap="round" stroke-linejoin="round"
                                                                     stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                                                             </svg>
-                                                            <span>Cancel</span>
+                                                            <span>Batal</span>
                                                         </button>
                                                     </div>
                                                 @else
@@ -1109,7 +1108,7 @@
                                                                 stroke-width="2"
                                                                 d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                                                         </svg>
-                                                        <span>Delete</span>
+                                                        <span>Hapus</span>
                                                     </button>
                                                 @endif
                                             </div>
@@ -1127,11 +1126,9 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
                     </svg>
-                    <h3 class="mt-2 text-sm font-medium text-gray-900 dark:text-gray-100">No files
-                        available
+                    <h3 class="mt-2 text-sm font-medium text-gray-900 dark:text-gray-100">Tidak ada dokumen tersedia
                     </h3>
-                    <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Select an indicator to view
-                        associated files</p>
+                    <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Pilih indikator untuk melihat dokumen terkait</p>
                 </div>
             @endif
         </div>
@@ -1302,10 +1299,10 @@
             <!-- Header -->
             <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                 <h1 class="text-2xl font-semibold text-gray-900 dark:text-gray-100">
-                    File Review Management
+                    Manajemen Tinjauan Dokumen
                 </h1>
                 <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                    Select a file to review and provide approval status
+                    Pilih dokumen untuk ditinjau dan berikan status persetujuan.
                 </p>
             </div>
 
@@ -1314,7 +1311,7 @@
                 <!-- File Selection -->
                 <div class="space-y-2">
                     <label for="file-select" class="block text-sm font-medium text-gray-900 dark:text-gray-100">
-                        Select File for Review
+                        Pilih Dokumen untuk Ditinjau
                     </label>
                     <div class="relative">
                         <select id="file-select" wire:model.lazy="selectedFileId"
@@ -1322,7 +1319,7 @@
                                        bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100
                                        focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-400
                                        transition duration-150 ease-in-out">
-                            <option value="">Select file...</option>
+                            <option value="">Pilih dokumen...</option>
                             @foreach (\App\Models\File::where('domain_id', $currentIndicator['id'])->get() as $file)
                                 <option value="{{ $file->id }}" class="py-2">
                                     {{ $file->original_name }}
@@ -1338,7 +1335,7 @@
                         <div class="space-y-2">
                             <label for="reason-{{ $selectedFileId }}"
                                 class="block text-sm font-medium text-gray-900 dark:text-gray-100">
-                                Review Comments
+                                Komentar Tinjauan
                             </label>
                             <textarea id="reason-{{ $selectedFileId }}" wire:model.lazy="selectedFileReason" rows="4"
                                 class="block w-full px-3 py-2 border border-gray-300 rounded-lg
@@ -1346,7 +1343,7 @@
                                        focus:ring-2 focus:ring-primary-500 focus:border-primary-500
                                        placeholder-gray-400 dark:placeholder-gray-500
                                        transition duration-150 ease-in-out"
-                                placeholder="Please provide detailed comments about your review decision..."></textarea>
+                                placeholder="Silakan berikan komentar rinci terkait keputusan tinjauan Anda..."></textarea>
                         </div>
 
                         <!-- Action Buttons -->
@@ -1361,7 +1358,7 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M5 13l4 4L19 7" />
                                 </svg>
-                                Approve File
+                                Setujui Dokumen
                             </button>
                             <button wire:click="saveFileReasonAndStatusInline(0)"
                                 class="inline-flex justify-center items-center px-4 py-2.5 border border-transparent
@@ -1373,7 +1370,7 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M6 18L18 6M6 6l12 12" />
                                 </svg>
-                                Disapprove File
+                                Tolak Dokumen
                             </button>
                         </div>
                     </div>
