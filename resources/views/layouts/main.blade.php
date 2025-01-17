@@ -6,8 +6,8 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>@yield('title', 'MONALISA')</title>
-    @vite('resources/css/app.css')
-    @vite('resources/css/homepage.css')
+    {{-- @vite('resources/css/app.css')
+    @vite('resources/css/homepage.css') --}}
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <!-- FullCalendar CSS from CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.11.3/main.min.css">
