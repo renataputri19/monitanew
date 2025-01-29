@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id(); // Primary key
             $table->unsignedBigInteger('domain_id'); // Foreign key to domains table
             $table->string('file_path'); // File path
-            $table->boolean('hasil')->default(false); // Approval status
+            $table->boolean('hasil')->nullable(); // Approval status
             $table->text('reasons')->nullable(); // Reasons for approval/rejection
             $table->string('original_name')->nullable();
             $table->timestamps(); // For 'Last Updated'

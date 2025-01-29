@@ -325,7 +325,7 @@ class DomainTemplate extends Component
                 'domain_id' => $domain->id, // Associate with the specific indikator
                 'file_path' => $filePath,
                 'original_name' => $originalName,
-                'hasil' => false, // Default approval status
+                'hasil' => null, // Default approval status
                 'reasons' => null, // No reasons initially
                 'context' => $context, // Add context
             ]);

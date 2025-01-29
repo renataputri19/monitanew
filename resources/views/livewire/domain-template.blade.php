@@ -1032,12 +1032,22 @@
                                     </td>
 
                                     <!-- Status Column DISINI ADA PERBAIKAN NANTI--> 
-                                    <td
-                                        class="border border-gray-300 dark:border-gray-700 px-4 py-2 text-gray-800 dark:text-gray-300">
-                                        <span class="{{ $file->hasil ? 'text-green-500' : 'text-yellow-500' }}">
-                                            {{ $file->hasil ? 'Disetujui' : 'Menunggu Persetujuan' }}
-                                        </span>
+                                    <td class="border border-gray-300 dark:border-gray-700 px-4 py-2 text-gray-800 dark:text-gray-300">
+                                        @if (is_null($file->hasil))
+                                            <span class="text-yellow-500">
+                                                Menunggu Persetujuan
+                                            </span>
+                                        @elseif ($file->hasil == 1)
+                                            <span class="text-green-500">
+                                                Disetujui
+                                            </span>
+                                        @else
+                                            <span class="text-red-500">
+                                                Ditolak
+                                            </span>
+                                        @endif
                                     </td>
+                                    
 
                                     <!-- Reason Column -->
                                     <td

@@ -45,22 +45,22 @@ class TimelineEventSeeder extends Seeder
                 'category' => 'Penilaian Mandiri',
             ],
             [
-                'task' => 'Penilaian Dokumen',
+                'task' => 'TPB',
                 'start_date' => '2025-06-16',
                 'end_date' => '2025-06-30',
-                'category' => 'TPB',
+                'category' => 'Penilaian Dokumen',
             ],
             [
-                'task' => 'Penilaian Dokumen',
+                'task' => 'TPK',
                 'start_date' => '2025-06-16',
                 'end_date' => '2025-06-30',
-                'category' => 'TPK',
+                'category' => 'Penilaian Dokumen',
             ],
             [
-                'task' => 'Penilaian Dokumen',
+                'task' => 'Penyesuaian TPB',
                 'start_date' => '2025-06-16',
                 'end_date' => '2025-06-30',
-                'category' => 'Penyesuaian TPB',
+                'category' => 'Penilaian Dokumen',
             ],
             [
                 'task' => 'Penilaian Interviu',

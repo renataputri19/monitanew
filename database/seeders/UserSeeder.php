@@ -25,6 +25,7 @@ class UserSeeder extends Seeder
             ['name' => 'Ivana Yoselin Purba Siboro, S.Tr.Stat.', 'email' => 'yoselin.purba@bps.go.id', 'password' => Hash::make('340060699'), 'admin' => 1],
             ['name' => 'Ratih Nurhabibah, S.Tr.Stat.', 'email' => 'ratihnurhabibah@bps.go.id', 'password' => Hash::make('340060871'), 'admin' => 1],
             ['name' => 'Florentz Magdalena', 'email' => 'fmagdalena@bps.go.id', 'password' => Hash::make('340056837'), 'admin' => 1],
+            ['name' => 'Maulidya Fan Ghul Udzan Utami', 'email' => 'maulidfan.ghul@bps.go.id', 'password' => Hash::make('340063310'), 'admin' => 1],
         ];
 
         foreach ($users as $user) {

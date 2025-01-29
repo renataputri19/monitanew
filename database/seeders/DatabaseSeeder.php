@@ -14,5 +14,7 @@ class DatabaseSeeder extends Seeder
     {
         // Call the TimelineEventSeeder
         $this->call(TimelineEventSeeder::class);
+        $this->call(DomainSeeder::class);
+        $this->call(UserSeeder::class);
     }
 }
