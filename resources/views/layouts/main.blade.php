@@ -45,7 +45,7 @@
                                 <span>Sistem Terintegrasi</span>
                                 <div class="nav-link-highlight"></div>
                             </a>
-                            <a href="{{ url('/epss') }}" class="nav-button">
+                            <a href="{{ url('/epss/nilai') }}" class="nav-button">
                                 <span>Login</span>
                                 <i class="fas fa-arrow-right"></i>
                             </a>

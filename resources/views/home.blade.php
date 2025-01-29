@@ -17,7 +17,7 @@
                         untuk mendukung Evaluasi Penyelenggaraan Statistik Sektoral (EPSS).
                     </p>
                     <div class="fade-in-up" data-animation="up">
-                        <a href="{{ url('/epss') }}" class="hero-cta hover-effect">
+                        <a href="{{ url('/epss/nilai') }}" class="hero-cta hover-effect">
                             Mulai Sekarang
                             <i class="fas fa-arrow-right ms-2"></i>
                         </a>
