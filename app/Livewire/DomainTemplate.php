@@ -38,6 +38,8 @@ class DomainTemplate extends Component
     public $selectedFile = null; // The selected file object
     public $selectedFileReason = null; // The reason for the selected file
 
+    public $selectedContext = 'pembinaan'; // Default context
+
 
     // Update selected file when dropdown changes
     public function updatedSelectedFileId($fileId)
@@ -288,38 +290,42 @@ class DomainTemplate extends Component
 
 
 
+
     // Save uploaded files
-    public function saveFiles($context = 'pembinaan')
+    public function saveFiles()
     {
         // Ensure a current indicator is selected
         if (!$this->currentIndicator) {
             session()->flash('message', 'No indikator selected!');
             return;
         }
-
+    
         // Fetch the specific domain for the selected indikator
         $domain = Domain::find($this->currentIndicator['id']);
-
+    
         if (!$domain) {
             session()->flash('message', 'Domain not found for the selected indikator!');
             return;
         }
-
+    
+        // Get context from the dropdown selection
+        $context = $this->selectedContext ?? 'pembinaan';
+    
         // Sanitize folder path by replacing spaces with underscores
         $folderPath = "uploads/" .
             $context . "/" . // Add context dynamically
             preg_replace('/\s+/', '_', $domain->domain) . "/" .
             preg_replace('/\s+/', '_', $domain->aspek) . "/" .
             preg_replace('/\s+/', '_', $domain->indikator);
-
+    
         // Loop through the uploaded files
         foreach ($this->uploadedFiles as $file) {
             $originalName = $file->getClientOriginalName();
             $randomName = uniqid() . '.' . $file->getClientOriginalExtension(); // Generate a random filename
-
+    
             // Store the file with a random name
             $filePath = $file->storeAs($folderPath, $randomName, 'public');
-
+    
             // Save file information in the database
             File::create([
                 'domain_id' => $domain->id, // Associate with the specific indikator
@@ -330,12 +336,12 @@ class DomainTemplate extends Component
                 'context' => $context, // Add context
             ]);
         }
-
+    
         // Clear the uploaded files and reset the view
         $this->uploadedFiles = [];
         session()->flash('message', 'Files uploaded successfully for the selected indikator!');
     }
-
+    
 
 
 

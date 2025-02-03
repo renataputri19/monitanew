@@ -176,8 +176,22 @@
                 <div class="p-6 bg-white dark:bg-gray-700 rounded-xl shadow-lg transition hover:shadow-2xl">
                     <h2 class="text-lg font-bold mb-4 text-gray-900 dark:text-gray-100">Unggah Dokumen</h2>
                     <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">
-                        Pilih dokumen untuk diunggah atau seret dan lepaskan. Anda dapat mengunggah beberapa dokumen sekaligus.
+                        Pilih dokumen untuk diunggah atau seret dan lepaskan. Anda dapat mengunggah beberapa dokumen
+                        sekaligus.
                     </p>
+
+                    <!-- Context Selection Dropdown -->
+                    <div class="mb-4">
+                        <label for="context" class="block text-sm font-medium text-gray-800 dark:text-gray-200">Pilih
+                            Tahapan</label>
+                        <select id="context" wire:model="selectedContext"
+                            class="block w-full p-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                            <option value="pembinaan">Pembinaan</option>
+                            <option value="interviu">Interviu</option>
+                            <option value="visitasi">Visitasi</option>
+                        </select>
+                    </div>
+
                     <div class="grid grid-cols-3 gap-4">
                         <!-- File Upload Section -->
                         <div class="col-span-2">
@@ -212,8 +226,8 @@
                         <div class="flex justify-end">
                             <button type="button" wire:click="saveFiles"
                                 class="inline-flex items-center px-4 py-2 border border-transparent rounded-lg shadow-sm text-sm font-medium
-                                           text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500
-                                           disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-150"
+            text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500
+            disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-150"
                                 wire:loading.attr="disabled">
                                 <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -222,10 +236,9 @@
                                 Unggah Dokumen
                             </button>
                         </div>
-
-
                     </div>
                 </div>
+
 
             </div>
         </div>
@@ -503,22 +516,23 @@
                                     {{ $currentIndicator['indikator'] }}</h3>
                                 <p class="text-sm text-gray-500 dark:text-gray-400">
                                     @if (is_null($currentIndicator['disetujui']))
-                                    Menunggu Penilaian
+                                        Menunggu Penilaian
                                         <span class="text-yellow-500 font-medium">• ⚠ Menunggu</span>
                                     @elseif ($currentIndicator['disetujui'] == 0)
-                                    Tidak Disetujui
+                                        Tidak Disetujui
                                         <span class="text-red-500 font-medium">• ✖ Tidak Disetujui</span>
                                     @elseif ($currentIndicator['disetujui'] == 1)
-                                    Disetujui
+                                        Disetujui
                                         <span class="text-green-500 font-medium">• ✔ Disetujui</span>
                                     @endif
                                 </p>
 
                             </div>
-                            <button wire:key="indicator-{{ $currentIndicator['id'] }}" class="px-3 py-1 bg-gray-200 dark:bg-gray-600 text-sm rounded-full">
+                            <button wire:key="indicator-{{ $currentIndicator['id'] }}"
+                                class="px-3 py-1 bg-gray-200 dark:bg-gray-600 text-sm rounded-full">
                                 Penilai: {{ $currentIndicator['user']['name'] ?? 'Belum Dinilai' }}
                             </button>
-                            
+
 
 
 
@@ -621,8 +635,10 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
                     </svg>
-                    <h3 class="mt-2 text-sm font-medium text-gray-900 dark:text-gray-100">Tidak ada indikator yang dipilih</h3>
-                    <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Pilih indikator untuk melihat detail penilaiannya.</p>
+                    <h3 class="mt-2 text-sm font-medium text-gray-900 dark:text-gray-100">Tidak ada indikator yang
+                        dipilih</h3>
+                    <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Pilih indikator untuk melihat detail
+                        penilaiannya.</p>
                 </div>
             @endif
         </div>
@@ -1031,8 +1047,9 @@
                                         </a>
                                     </td>
 
-                                    <!-- Status Column DISINI ADA PERBAIKAN NANTI--> 
-                                    <td class="border border-gray-300 dark:border-gray-700 px-4 py-2 text-gray-800 dark:text-gray-300">
+                                    <!-- Status Column DISINI ADA PERBAIKAN NANTI-->
+                                    <td
+                                        class="border border-gray-300 dark:border-gray-700 px-4 py-2 text-gray-800 dark:text-gray-300">
                                         @if (is_null($file->hasil))
                                             <span class="text-yellow-500">
                                                 Menunggu Persetujuan
@@ -1047,7 +1064,7 @@
                                             </span>
                                         @endif
                                     </td>
-                                    
+
 
                                     <!-- Reason Column -->
                                     <td
@@ -1138,7 +1155,8 @@
                     </svg>
                     <h3 class="mt-2 text-sm font-medium text-gray-900 dark:text-gray-100">Tidak ada dokumen tersedia
                     </h3>
-                    <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Pilih indikator untuk melihat dokumen terkait</p>
+                    <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Pilih indikator untuk melihat dokumen
+                        terkait</p>
                 </div>
             @endif
         </div>
